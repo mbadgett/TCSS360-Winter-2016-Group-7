@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 import data.DataService;
 import data.JobDB;
 import data.ParkDB;
@@ -11,20 +13,23 @@ public class Main {
 	static UserDB users;
 	
 	public static void main(String[] args) {
-		initDB();
-		//CONSOLE SHIT HERE.... backupDB() at termination of program.
+		initDB();		
 		
+		//backupDB();
 	}
 
 	private static void initDB() {
-		JobDB jobs = DataService.loadJobs();
-		ParkDB parks = DataService.loadParks();
-		UserDB users = DataService.loadUsers();
-		
+		ArrayList<Object> DBs = DataService.loadDBs();
+		jobs = (JobDB) DBs.get(0);
+		parks = (ParkDB) DBs.get(1);
+		users = (UserDB) DBs.get(2);				
 	}
 	
 	private static void backupDB() {
 		DataService.backup(jobs, parks, users);
 	}
+	
+	
+	
 
 }
