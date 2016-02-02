@@ -2,11 +2,12 @@ package data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class JobDB implements Serializable {
 
 	private static final long serialVersionUID = -2757438807790008719L;
-	public ArrayList<Job> jobList;
+	public Collection<Job> jobList;
 	//collection of jobs
 	public JobDB(){
 		jobList = new ArrayList<Job>();
@@ -17,10 +18,10 @@ public class JobDB implements Serializable {
 		jobList.add(theJob);
 	}
 	
-	public Job getJob(){
-		return jobList.get(0);
-	}
-	
+//	public Job getJob(){
+//		return jobList.get(0);
+//	}
+//	
 	
 		
 	

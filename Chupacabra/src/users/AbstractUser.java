@@ -7,6 +7,7 @@ public abstract class AbstractUser implements Serializable{
 	private static final long serialVersionUID = 2369082327791998209L;
 	private String name, email;
 	
+	
 	public AbstractUser(String theName, String theEmail){
 		setName(theName);
 		setEmail(theEmail);
