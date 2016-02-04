@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import users.AbstractUser;
 import data.DataService;
 import data.JobDB;
 import data.ParkDB;
@@ -11,6 +12,7 @@ public class Main {
 	static JobDB jobs;
 	static ParkDB parks;
 	static UserDB users;
+	static AbstractUser myCurrentUser;
 	
 	public static void main(String[] args) {
 		initDB();		
@@ -28,6 +30,7 @@ public class Main {
 	private static void backupDB() {
 		DataService.backup(jobs, parks, users);
 	}
+	
 	
 	
 	
