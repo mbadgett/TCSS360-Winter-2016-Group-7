@@ -8,20 +8,25 @@ import java.io.Serializable;
  */
 public abstract class AbstractUser implements Serializable{
 	private static final long serialVersionUID = 2369082327791998209L;
-	private String name, email;
+	private String email, lName, fName;
 	
 	
-	public AbstractUser(String theName, String theEmail){
-		setName(theName);
+	public AbstractUser(String theLName, String theFName, String theEmail){
+		this.lName = theLName;
+		this.fName = theFName;
 		setEmail(theEmail);
 	}
 
 	public String getName() {
-		return name;
+		return lName;
+	}
+	
+	public void setLName(String name) {
+		this.lName = name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFName(String name) {
+		this.fName = name;
 	}
 
 	public String getEmail() {

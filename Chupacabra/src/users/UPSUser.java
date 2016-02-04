@@ -5,8 +5,8 @@ public class UPSUser extends AbstractUser {
 
 	private static final long serialVersionUID = -5586321701248125003L;
 
-	public UPSUser(String theName, String theEmail) {
-		super(theName, theEmail);
+	public UPSUser(String theLName, String theFName, String theEmail){
+		super(theLName,  theFName, theEmail);
 		
 	}
 
