@@ -12,8 +12,10 @@ public class Job implements Serializable{
 	private Date myDate;
 	private Park myPark;
 	
-	public Job(String theDesc){
+	public Job(String theDesc, Date theDate, Park thePark){
 		myDescription = theDesc;
+		myDate = theDate;
+		myPark = thePark;
 	}
 	
 	public void addVolunteer(VolUser theVol){
