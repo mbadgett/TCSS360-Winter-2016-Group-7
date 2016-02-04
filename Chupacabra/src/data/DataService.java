@@ -7,15 +7,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+/**Handles persistent data.
+ * @author yattha
+ *
+ */
 public final class DataService {
+	/**Default file name for the backup file.	 */
 	private static final String OUTPUT_FILENAME = "./backup.ups";
 	
 	
 	
+	/**Intended to be used statically.	 */
 	private DataService(){
 		
 	}
 	
+	/**Loads the persistent data.
+	 * @return A collection of the DB objects for users, parks, and jobs.
+	 */
 	public static ArrayList<Object> loadDBs(){
 		ArrayList<Object> DBs = new ArrayList<Object>();
 		try {
@@ -34,6 +43,11 @@ public final class DataService {
 	
 	
 
+	/** Writes the current state of the data out to the default file.
+	 * @param jobs
+	 * @param parks
+	 * @param users
+	 */
 	public static void backup(JobDB jobs, ParkDB parks, UserDB users) {
 		try {
 			ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(OUTPUT_FILENAME));
