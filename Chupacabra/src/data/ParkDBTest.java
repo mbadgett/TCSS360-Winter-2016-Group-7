@@ -1,3 +1,4 @@
+//Is there really anything to test here yet? Need some getters/setters at least.
 package data;
 
 import static org.junit.Assert.*;
