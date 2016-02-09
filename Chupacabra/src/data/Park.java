@@ -28,14 +28,24 @@ class Park implements Serializable{
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object theObject){
-		return false;
+		boolean rtn = false;
+		if (super.equals(theObject)) {
+			rtn = true;
+		} else if (theObject.getClass() == Park.class) {
+			Park j = (Park) theObject;
+			if (j.myName.equals(myName) && j.myAddress.equals(myAddress) &&
+					j.myManager.equals(myManager)){
+				rtn = true;
+			}
+		}
+		return rtn;
 	}
 	
 	/* (non-Javadoc) written since we're rewriting equals
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode(){
-		return 1;
+		return toString().hashCode();
 	}
 	
 	
