@@ -36,7 +36,7 @@ public class JobDB implements Serializable {
 	 * @return
 	 */
 	public boolean deleteJob(Job theJob){
-		return false;
+		return jobList.remove(theJob);
 	}
 
 	/**will return all jobs, potentially for user story 4 and 11

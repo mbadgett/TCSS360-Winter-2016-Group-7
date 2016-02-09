@@ -31,6 +31,7 @@ public class Job implements Serializable{
 	public Job(String theDesc, Date theDate, Park thePark){
 		myDescription = theDesc;
 		myDate = theDate;
+		myPark = thePark;
 	}
 	
 	/** USER STORY 6
@@ -44,7 +45,17 @@ public class Job implements Serializable{
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object theObject){
-		return false;
+		boolean rtn = false;
+		if (super.equals(theObject)) {
+			rtn = true;
+		} else if (theObject.getClass() == Job.class) {
+			Job j = (Job) theObject;
+			if (j.myDate.equals(myDate) && j.myDescription.equals(myDescription) &&
+					j.myPark.equals(myPark)){
+				rtn = true;
+			}
+		}
+		return rtn;
 	}	
 	
 	/**USER STORY 9 in combination with 
@@ -58,7 +69,7 @@ public class Job implements Serializable{
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode(){
-		return 1;
+		return this.toString().hashCode();
 	}
 	
 	//potentially replace this getDescription method
