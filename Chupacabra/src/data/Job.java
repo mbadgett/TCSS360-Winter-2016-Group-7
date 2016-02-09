@@ -41,7 +41,7 @@ public class Job implements Serializable{
 		myVolunteers.add(theVol);
 	}
 	
-	/* (non-Javadoc) must be writted to enable searching
+	/* (non-Javadoc) must be written to enable searching
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object theObject){
@@ -76,7 +76,6 @@ public class Job implements Serializable{
 	/**The purpose is for console display USER STORY 5 and 12
 	 * */
 	public String toString(){
-		//REWRITE ME DAMN IT
 		return "";
 	}
 }

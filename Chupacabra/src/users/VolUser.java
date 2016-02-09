@@ -13,6 +13,7 @@ public class VolUser extends AbstractUser {
 		super(theLName,  theFName, theEmail);
 		
 	}
+
 	
 	public Collection<Job> getVolunteeredJobs(){
 		return new ArrayList<Job>();

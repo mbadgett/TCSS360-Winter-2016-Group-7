@@ -1,6 +1,7 @@
 package data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import users.AbstractUser;
@@ -17,9 +18,13 @@ public class ParkDB implements Serializable{
 	/**The actual collection of parks.. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/
 	private Collection<Park> myParks;		
 	
+	public ParkDB(){
+		myParks = new ArrayList<Park>();
+	}
+	
 	/***/
 	public void addPark(Park thePark){
-		
+		myParks.add(thePark);
 	}		
 	
 	//MAY NOT BE NECCESSARY (no need to list all parks as far as i can see).

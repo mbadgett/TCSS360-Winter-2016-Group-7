@@ -18,16 +18,25 @@ public class UserDB implements Serializable{
 	private Collection<AbstractUser> myUsers;
 	
 	/***/
-	public void addUser(AbstractUser theUser){
-		myU
+	public UserDB(){
+		myUsers = new ArrayList<AbstractUser>();
 	}
 	
 	
-	/** Retrun all users, may be useful. could be superfluous.
+	public void addUser(AbstractUser theUser){
+		myUsers.add(theUser);
+	}
+	
+	
+	/** Return all users, may be useful. could be superfluous.
 	 * @return
 	 */
 	public Collection<VolUser> getVolunteers(){
-		return new ArrayList<VolUser>();
+		ArrayList<VolUser> rtn = new ArrayList<VolUser>();
+		for (AbstractUser u: myUsers) {
+			if (u.getClass() == VolUser.class) rtn.add((VolUser) u);
+		}
+		return rtn;
 	}
 	
 	/**User story 10
@@ -35,8 +44,14 @@ public class UserDB implements Serializable{
 	 * @return
 	 */
 	public Collection<VolUser> searchByLName(String theLName){
-		//must also isolate VolUsers...
-		return null;		
+		Collection<VolUser> rtn = getVolunteers();
+		for (VolUser v : rtn)  {
+			if (!v.getName().equals(theLName)) {
+				rtn.remove(v);
+			}
+		}
+		
+		return rtn;		
 	}
 	
 	
