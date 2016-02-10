@@ -8,5 +8,16 @@ public class PMUser extends AbstractUser {
 		super(theLName,  theFName, theEmail);
 		
 	}
+	
+	public boolean equals(Object theObject){
+		boolean rtn = false;
+		if (super.equals(theObject)) {
+			rtn = true;
+		} else if (theObject.getClass() == PMUser.class) {
+			PMUser pm = (PMUser) theObject;
+			if (pm.getEmail().equals(this.getEmail())) rtn = true;
+		}
+		return rtn;
+	}
 
 }

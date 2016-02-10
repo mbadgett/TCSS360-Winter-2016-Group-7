@@ -1,15 +1,13 @@
 package data;
 
 import java.io.Serializable;
-import java.util.Collection;
-
 import users.PMUser;
 
 /**Park will only contain manager and info.
  * @author yattha
  *
  */
-class Park implements Serializable{
+public class Park implements Serializable{
 	/**For serialization.*/
 	private static final long serialVersionUID = -4004677218782934433L;
 	/**The info*/
@@ -21,6 +19,10 @@ class Park implements Serializable{
 		myName = theName;
 		myAddress = theAddress;
 		myManager = theManager;
+	}
+	
+	public PMUser getManager(){
+		return myManager;
 	}
 	
 	
@@ -53,8 +55,12 @@ class Park implements Serializable{
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString(){
-		//REWRITE ME DAMN IT
-		return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(myName);
+		sb.append('(');
+		sb.append(myAddress);		
+		sb.append(')');		
+		return sb.toString();
 	}
 	
 	

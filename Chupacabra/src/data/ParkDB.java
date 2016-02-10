@@ -25,7 +25,15 @@ public class ParkDB implements Serializable{
 	/***/
 	public void addPark(Park thePark){
 		myParks.add(thePark);
-	}		
+	}
+	
+	public ArrayList<Park> getParksManagedBy(PMUser theManager){
+		ArrayList<Park> result = new ArrayList<Park>();
+		for(Park p : myParks)if(p.getManager().equals(theManager))result.add(p);
+		
+		
+		return result;
+	}
 	
 	//MAY NOT BE NECCESSARY (no need to list all parks as far as i can see).
 	/* (non-Javadoc)

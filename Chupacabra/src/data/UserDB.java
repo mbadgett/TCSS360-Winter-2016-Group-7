@@ -15,11 +15,17 @@ public class UserDB implements Serializable{
 	/**For serialization.*/
 	private static final long serialVersionUID = 3463062287214682923L;
 	/**The actual collection of the users. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/	
-	private Collection<AbstractUser> myUsers;
+	private ArrayList<AbstractUser> myUsers;
 	
 	/***/
 	public UserDB(){
 		myUsers = new ArrayList<AbstractUser>();
+	}
+	
+	public AbstractUser getUser(String theEmail){
+		AbstractUser result = null;
+		for(AbstractUser u: myUsers) if(u.getEmail().toLowerCase().equals(theEmail.toLowerCase()))result = u;
+		return result;
 	}
 	
 	
@@ -31,7 +37,7 @@ public class UserDB implements Serializable{
 	/** Return all users, may be useful. could be superfluous.
 	 * @return
 	 */
-	public Collection<VolUser> getVolunteers(){
+	public ArrayList<VolUser> getVolunteers(){
 		ArrayList<VolUser> rtn = new ArrayList<VolUser>();
 		for (AbstractUser u: myUsers) {
 			if (u.getClass() == VolUser.class) rtn.add((VolUser) u);
@@ -43,11 +49,11 @@ public class UserDB implements Serializable{
 	 * @param theLName
 	 * @return
 	 */
-	public Collection<VolUser> searchByLName(String theLName){
-		Collection<VolUser> rtn = getVolunteers();
-		for (VolUser v : rtn)  {
-			if (!v.getName().equals(theLName)) {
-				rtn.remove(v);
+	public ArrayList<VolUser> searchByLName(String theLName){
+		ArrayList<VolUser> rtn = getVolunteers();
+		for (VolUser v : getVolunteers())  {
+			if (v.getName().equals(theLName)) {
+				rtn.add(v);
 			}
 		}
 		
