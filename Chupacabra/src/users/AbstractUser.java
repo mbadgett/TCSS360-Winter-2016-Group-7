@@ -2,6 +2,8 @@ package users;
 
 import java.io.Serializable;
 
+
+
 /**Abstract useer houses common functionality.
  * @author yattha
  *
@@ -40,8 +42,13 @@ public abstract class AbstractUser implements Serializable{
 	/**The purpose is for console display
 	 * */
 	public String toString(){
-		//REWRITE ME DAMN IT
-		return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(fName);
+		sb.append(' ');
+		sb.append(lName);
+		sb.append(" - ");
+		sb.append(email);
+		return sb.toString();
 	}
 	
 	
