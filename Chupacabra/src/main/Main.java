@@ -143,7 +143,13 @@ public class Main {
 					input = promptUser(scan);
 				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < jobs.getAllJobs().size()+1));
 				nextScreen();
-				if(!"b".equals(input))SignUpForJob(Integer.parseInt(input)-1, scan);
+				
+				if(!"b".equals(input)){
+					int jobSel = Integer.parseInt(input)-1;
+					if(jobs.canVolunteer(jobs.getAllJobs().get(jobSel), (VolUser) myCurrentUser))SignUpForJob(jobSel, scan);
+					else System.out.println("Cannot volunteer for multiple jobs on the sameday.\n\n");
+				}
+				
 				
 			} 
 			
@@ -384,9 +390,13 @@ public class Main {
 		int medium = theScanner.nextInt();
 		System.out.print("Please enter the new max for heavy workers:");
 		int heavy = theScanner.nextInt();
-		theJob = new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy);
+		Job newJob = new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy);
+		String output = jobs.addJob(newJob);
+		if(output.equals("Job added.")){
+			jobs.getAllJobs().remove(theJob);
+			System.out.println("Job edited.");
+		}else System.out.println("\n\n\n"+output);//why could not edit
 		
-		System.out.println("Job edited.");
 	}
 
 	
@@ -452,9 +462,8 @@ public class Main {
 				nextScreen();
 				if(!"b".equals(input))System.out.println(jobs.getAllJobs().get(Integer.parseInt(input)-1));
 			} else if(userSelection == 3){
-				ViewDetailUpComingJob(scan);
-			} else if(userSelection == 4){
 				volunteerContinue = false;
+				quit();
 			}
 			nextScreen();
 		}

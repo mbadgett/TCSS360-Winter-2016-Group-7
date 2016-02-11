@@ -54,6 +54,9 @@ public class Job implements Serializable{
 	public Date getStartDate(){
 		return myStartDate;
 	}
+	public Date getEndDate(){
+		return myEndDate;
+	}
 	
 	public Park getPark(){
 		return myPark;
