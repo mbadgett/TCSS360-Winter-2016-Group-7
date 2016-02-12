@@ -25,6 +25,10 @@ public class Park implements Serializable{
 		return myManager;
 	}
 	
+	public String getName(){
+		return myName;
+	}
+	
 	
 	/* (non-Javadoc) must be writted to enable searching
 	 * @see java.lang.Object#equals(java.lang.Object)

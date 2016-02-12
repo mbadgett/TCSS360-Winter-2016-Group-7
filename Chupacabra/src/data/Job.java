@@ -151,4 +151,9 @@ public class Job implements Serializable{
 		} 
 		return result;
 	}
+	@SuppressWarnings("deprecation")
+	public String listingToString() {
+		return myPark.getName() + ": " + myStartDate.getMonth() + "/" + myStartDate.getDay()
+		+ ": " + myDescription.substring(0, Math.min(15, myDescription.length()-4)) + "...";
+	}
 }

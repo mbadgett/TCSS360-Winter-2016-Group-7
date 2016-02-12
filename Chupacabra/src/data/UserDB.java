@@ -52,7 +52,7 @@ public class UserDB implements Serializable{
 	public ArrayList<VolUser> searchByLName(String theLName){
 		ArrayList<VolUser> rtn = new ArrayList<VolUser>();
 		for (VolUser v : getVolunteers())  {
-			if (v.getName().equals(theLName)) {
+			if (v.getName().toLowerCase().equals(theLName.toLowerCase())) {
 				rtn.add(v);
 			}
 		}
