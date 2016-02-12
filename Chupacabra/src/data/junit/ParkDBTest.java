@@ -1,5 +1,5 @@
 //Is there really anything to test here yet? Need some getters/setters at least.
-package data;
+package data.junit;
 
 import static org.junit.Assert.*;
 
@@ -12,14 +12,20 @@ public class ParkDBTest {
 	public void setUp() throws Exception {
 	}
 
+	/*
+	 * PERHAPS a test to see if a bad park can be added (null parameters)
+	 */
 	@Test
 	public void testAddPark() {
 		fail("Not yet implemented");
 	}
 
+	/*
+	 * Tests on a non-existing PMUser
+	 * Tests on an existing PMUser
+	 */
 	@Test
-	public void testToString() {
-		fail("Not yet implemented");
+	public void testGetParksManagedByPMUser() {
+		
 	}
-
 }
