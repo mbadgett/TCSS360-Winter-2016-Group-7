@@ -1,10 +1,11 @@
-package data;
+package data.junit;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import data.Park;
 import users.PMUser;
 
 public class ParkTest {
@@ -13,7 +14,7 @@ public class ParkTest {
 	public void setUp() throws Exception {
 	}
 
-	/**
+	/*
 	 * Checks equals method for viability.
 	 * Tests the park against itself.
 	 * Tests the park against an identical park that is a separate object.
@@ -27,17 +28,8 @@ public class ParkTest {
 		Park c = new Park("name", "different address", user);
 		assertEquals(a, a);
 		assertEquals(a, b);
+		assertEquals(b, a);
 		assertEquals(a, c);
-	}
-	
-	@Test
-	public void testHashcode() {
-		fail("n/a");
-	}
-	
-	@Test
-	public void testToString() {
-		fail("n/a");
 	}
 
 }
