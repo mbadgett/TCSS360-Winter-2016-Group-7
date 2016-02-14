@@ -11,6 +11,7 @@ import data.Job;
 import data.JobDB;
 import data.Park;
 import users.PMUser;
+import users.VolUser;
 
 @SuppressWarnings("deprecation")
 public class JobDBTest {
@@ -27,26 +28,7 @@ public class JobDBTest {
 		testDB = new JobDB();
 		testPMUser = new PMUser("last", "first", "email@email.com");
 		testPark = new Park("parkname", "address", testPMUser);
-		Job testJob2 = new Job("2", new Date(), new Date(), testPark, 5, 3, 3);
-		testJob2.getStartDate().setDate(testJob2.getStartDate().getDate() + 2);
-		testJob2.getEndDate().setDate(testJob2.getEndDate().getDate() + 2);
-		
-		Job testJob3 = new Job("3", new Date(), new Date(), testPark, 5, 3, 3);
-		testJob3.getStartDate().setDate(testJob3.getStartDate().getDate() + 2);
-		testJob3.getEndDate().setDate(testJob3.getEndDate().getDate() + 2);
-		
-		Job testJob4 = new Job("4", new Date(), new Date(), testPark, 5, 3, 3);
-		testJob4.getStartDate().setDate(testJob4.getStartDate().getDate() + 2);
-		testJob4.getEndDate().setDate(testJob4.getEndDate().getDate() + 2);
-		
-		Job testJob5 = new Job("5", new Date(), new Date(), testPark, 5, 3, 3);
-		testJob5.getStartDate().setDate(testJob5.getStartDate().getDate() + 2);
-		testJob5.getEndDate().setDate(testJob5.getEndDate().getDate() + 2);
-		
-		Job testJob6 = new Job("6", new Date(), new Date(), testPark, 5, 3, 3);
-		testJob6.getStartDate().setDate(testJob6.getStartDate().getDate() + 2);
-		testJob6.getEndDate().setDate(testJob6.getEndDate().getDate() + 2);
-		
+
 		//A job in one day
 		testJob = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
 		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
@@ -196,7 +178,6 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testGetPendingJobs() {
-		testDB = new JobDB();
 		assertTrue(testDB.getPendingJobs().size() == 0);
 		testDB.addJob(testJob);
 		assertTrue(testDB.getPendingJobs().size() == 1);
@@ -209,16 +190,32 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testGetParkManagerJobs() {
-		fail("Not yet implemented");
+		//expected none, nonexistent park manager
+		PMUser diffPM = new PMUser("last2", "first2", "notreal@reallyfake.com");
+		assertEquals(testDB.getParkManagerJobs(diffPM).size(), 0);
+		//expected none
+		assertEquals(testDB.getParkManagerJobs(testPMUser).size(), 0);
+		testDB.addJob(testJob);
+		
+		//expected none, nonexistent park manager despite adding a job to DB
+		assertEquals(testDB.getParkManagerJobs(diffPM).size(), 0);
+		//expected one
+		assertEquals(testDB.getParkManagerJobs(testPMUser).size(), 1);
+		
 	}
 
 	/*
-	 * Tests on no jobs, a job that's a different volunteer,
-	 * a job that's the right volunteer, and multiple jobs that are the right volunteer.
+	 * Tests a volunteer with no jobs and a volunteer with a job.
 	 */
 	@Test
 	public void testGetVolunteerJobs() {
-		fail("Not yet implemented");
+		VolUser testVolunteer = new VolUser("test", "test", "test@email.com");
+		assertEquals(testDB.getVolunteerJobs(testVolunteer).size(), 0);
+		
+		testJob.addVolunteer(testVolunteer, 1);
+		testDB.addJob(testJob);
+		assertEquals(testDB.getVolunteerJobs(testVolunteer).size(), 1);
+		
 	}
 	
 	@Test
@@ -247,7 +244,22 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testCanVolunteer() {
-		fail("asdf");
+		VolUser testVolunteer = new VolUser("test", "test", "test@email.com");
+		testDB.addJob(testJob);
+		
+		//can volunteer for a basic job
+		assertTrue(testDB.canVolunteer(testJob, testVolunteer));
+
+		
+		//can't volunteer for a job already signed up for
+		testJob.addVolunteer(testVolunteer, 1);
+		assertFalse(testDB.canVolunteer(testJob, testVolunteer));
+		
+		
+		//can volunteer for a job with the right intensity
+		//cant volunteer for a job with no slots
+		
+		//cant volunteer for a job with the wrong intensity
 	}
 
 }
