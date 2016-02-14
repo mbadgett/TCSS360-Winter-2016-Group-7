@@ -12,26 +12,47 @@ import data.JobDB;
 import data.Park;
 import users.PMUser;
 
+@SuppressWarnings("deprecation")
 public class JobDBTest {
 	JobDB testDB;
-	PMUser testUser;
+	PMUser testPMUser;
 	Park testPark;
 	Job testJob;
 
 	/*
 	 * Initializes basic objects that will be used in all tests.
 	 */
-	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() throws Exception {
 		testDB = new JobDB();
-		testUser = new PMUser("last", "first", "email@email.com");
-		testPark = new Park("parkname", "address", testUser);
-		//test jobs wont work if the dates within are null
-		//not super sure what int light med heavy are supposed to indicate
+		testPMUser = new PMUser("last", "first", "email@email.com");
+		testPark = new Park("parkname", "address", testPMUser);
+		Job testJob2 = new Job("2", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob2.getStartDate().setDate(testJob2.getStartDate().getDate() + 2);
+		testJob2.getEndDate().setDate(testJob2.getEndDate().getDate() + 2);
+		
+		Job testJob3 = new Job("3", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob3.getStartDate().setDate(testJob3.getStartDate().getDate() + 2);
+		testJob3.getEndDate().setDate(testJob3.getEndDate().getDate() + 2);
+		
+		Job testJob4 = new Job("4", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob4.getStartDate().setDate(testJob4.getStartDate().getDate() + 2);
+		testJob4.getEndDate().setDate(testJob4.getEndDate().getDate() + 2);
+		
+		Job testJob5 = new Job("5", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob5.getStartDate().setDate(testJob5.getStartDate().getDate() + 2);
+		testJob5.getEndDate().setDate(testJob5.getEndDate().getDate() + 2);
+		
+		Job testJob6 = new Job("6", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob6.getStartDate().setDate(testJob6.getStartDate().getDate() + 2);
+		testJob6.getEndDate().setDate(testJob6.getEndDate().getDate() + 2);
+		
+		//A job in one day
 		testJob = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
 		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
 		testJob.getEndDate().setDate(testJob.getEndDate().getDate() + 1);
+		
+
 	}
 
 	/*
@@ -44,47 +65,71 @@ public class JobDBTest {
 	 * Tests to see if more than 30 jobs can be added.
 	 */
 	@Test
-	public void testAddJob() {
+	public void testAddOneJob() {
 		//test to see if a job gets added to the list
+		assertEquals(testDB.addJob(testJob), "Job added.");
+	}
+	
+	@Test
+	public void testAddSameJob() {
 		testDB.addJob(testJob);
-		int size = testDB.getAllJobs().size();
-		assertEquals(size, 1);
+		assertEquals(testDB.addJob(testJob), "Job already exists.");
+	}
+	
+	@Test
+	public void testAddBadJob() {
+		//job that's 5 days long
+		Job testJob2 = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob2.getEndDate().setDate(testJob2.getEndDate().getDate() + 5);
+		assertEquals(testDB.addJob(testJob2), "Job length is invalid.");
 		
-		//can add the same job twice
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.addJob(testJob));
-//		System.out.println(testDB.jobsInWeek(testJob));
+		//job that ends before it begins
+		Job testJob3 = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob3.getEndDate().setDate(testJob3.getEndDate().getDate() - 2);
+		assertEquals(testDB.addJob(testJob3), "Job length is invalid.");
 		
-		//test to make sure a job with a start date in the future can't be added
-//		Job compareJob1 = new Job("b", new Date(), new Date(), testPark, 1, 1, 1);
-//		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(testJob));
+		//job that ended already
+		Job testJob4 = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob4.getStartDate().setDate(testJob4.getStartDate().getDate() - 2);
+		testJob4.getEndDate().setDate(testJob4.getEndDate().getDate() - 2);
 		
+		//can't add a job too far into the future
+		Job testJob5 = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob5.getStartDate().setDate(testJob5.getStartDate().getDate() + 100);
+		testJob5.getEndDate().setDate(testJob5.getEndDate().getDate() + 100);
+		assertEquals(testDB.addJob(testJob5), "Job must be within 90 days.");
+	}
+	
+	
+	@Test
+	public void testAddTooManyJobs() {
+		Job testJob2 = new Job("2", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob2.getStartDate().setDate(testJob2.getStartDate().getDate() + 2);
+		testJob2.getEndDate().setDate(testJob2.getEndDate().getDate() + 2);
 		
-		//test to see if more than 5 jobs can be added in a week
-//		Job compareJob1 = new Job("b", new Date(), new Date(), testPark, 1, 1, 1);
-//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(compareJob1));
-////		testDB.addJob(compareJob1);
-//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(compareJob1));
-////		testDB.addJob(compareJob1);
-//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(compareJob1));
-////		testDB.addJob(compareJob1);
-//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(compareJob1));
-////		testDB.addJob(compareJob1);
-//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
-//		System.out.println(testDB.addJob(compareJob1));
+		Job testJob3 = new Job("3", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob3.getStartDate().setDate(testJob3.getStartDate().getDate() + 2);
+		testJob3.getEndDate().setDate(testJob3.getEndDate().getDate() + 2);
 		
+		Job testJob4 = new Job("4", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob4.getStartDate().setDate(testJob4.getStartDate().getDate() + 2);
+		testJob4.getEndDate().setDate(testJob4.getEndDate().getDate() + 2);
 		
+		Job testJob5 = new Job("5", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob5.getStartDate().setDate(testJob5.getStartDate().getDate() + 2);
+		testJob5.getEndDate().setDate(testJob5.getEndDate().getDate() + 2);
+		
+		Job testJob6 = new Job("6", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob6.getStartDate().setDate(testJob6.getStartDate().getDate() + 2);
+		testJob6.getEndDate().setDate(testJob6.getEndDate().getDate() + 2);
+		
+		//can't have 6 jobs in the same week.
+		testDB.addJob(testJob);
+		testDB.addJob(testJob2);
+		testDB.addJob(testJob3);
+		testDB.addJob(testJob4);
+		assertEquals(testDB.addJob(testJob5), "Job added.");
+		assertEquals(testDB.addJob(testJob6), "Too many jobs in week.");
 	}
 	
 	/*
@@ -103,13 +148,33 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testJobsInWeek() {
+		Job testJob2 = new Job("2", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob2.getStartDate().setDate(testJob2.getStartDate().getDate() + 2);
+		testJob2.getEndDate().setDate(testJob2.getEndDate().getDate() + 2);
+		
+		Job testJob3 = new Job("3", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob3.getStartDate().setDate(testJob3.getStartDate().getDate() + 2);
+		testJob3.getEndDate().setDate(testJob3.getEndDate().getDate() + 2);
+		
+		Job testJob4 = new Job("4", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob4.getStartDate().setDate(testJob4.getStartDate().getDate() + 2);
+		testJob4.getEndDate().setDate(testJob4.getEndDate().getDate() + 2);
+		
+		Job testJob5 = new Job("5", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob5.getStartDate().setDate(testJob5.getStartDate().getDate() + 2);
+		testJob5.getEndDate().setDate(testJob5.getEndDate().getDate() + 2);
+		
+		Job testJob6 = new Job("6", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob6.getStartDate().setDate(testJob6.getStartDate().getDate() + 2);
+		testJob6.getEndDate().setDate(testJob6.getEndDate().getDate() + 2);
+		
 		assertEquals(testDB.jobsInWeek(testJob), 0);
 		testDB.addJob(testJob);
 		assertEquals(testDB.jobsInWeek(testJob), 1);
-		testDB.addJob(testJob);
-		testDB.addJob(testJob);
-		testDB.addJob(testJob);
-		testDB.addJob(testJob); //5 jobs currently in week
+		testDB.addJob(testJob2);
+		testDB.addJob(testJob3);
+		testDB.addJob(testJob4);
+		testDB.addJob(testJob5); //5 jobs currently in week
 		assertEquals(testDB.jobsInWeek(testJob), 5);
 	}
 	
@@ -120,9 +185,9 @@ public class JobDBTest {
 	@Test
 	public void testDeleteJob() {
 		testDB.addJob(testJob);
-		assertEquals(testDB.getAllJobs().size(), 1);
+		assertEquals(testDB.getPendingJobs().size(), 1);
 		testDB.deleteJob(testJob);
-		assertEquals(testDB.getAllJobs().size(), 0);
+		assertEquals(testDB.getPendingJobs().size(), 0);
 	}
 
 	/*
@@ -130,12 +195,11 @@ public class JobDBTest {
 	 * Tests to see if jobs are returned if there are ones within 90 days.
 	 */
 	@Test
-	public void testGetAllJobs() {
-		//can only test if it returns the list field right now,
-		//can't test job list integrity yet
+	public void testGetPendingJobs() {
 		testDB = new JobDB();
-		assertTrue(testDB.getAllJobs().size() == 0);
+		assertTrue(testDB.getPendingJobs().size() == 0);
 		testDB.addJob(testJob);
+		assertTrue(testDB.getPendingJobs().size() == 1);
 		
 	}
 
@@ -157,14 +221,19 @@ public class JobDBTest {
 		fail("Not yet implemented");
 	}
 	
-	/*
-	 * Tests on a park that doesn't exist.
-	 * Tests on a park that does exist with no jobs.
-	 * Tests on a park that does exist with jobs.
-	 */
 	@Test
 	public void testGetParkJobs() {
+		//a park with no jobs added should have none in the collection
+		assertEquals(testDB.getParkJobs(testPark).size(), 0);
 		
+		PMUser diffPMUser = new PMUser("last2", "first2", "email2@email.com");
+		Park diffPark = new Park("parkname2", "addresse2", diffPMUser);
+		Job diffJob = new Job("b", new Date(), new Date(), diffPark, 5, 3, 3);
+		testDB.addJob(testJob);
+		testDB.addJob(diffJob);
+		
+		//should only get one of these jobs, and it should be the first job.
+		assertEquals(testDB.getParkJobs(testPark).get(0), testJob);
 	}
 	
 	/*
@@ -178,7 +247,7 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testCanVolunteer() {
-		
+		fail("asdf");
 	}
 
 }

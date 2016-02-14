@@ -35,12 +35,12 @@ public class VolunteerDriver {
 				do{
 					System.out.print("Enter job number to sign up or b to go back:");
 					input = scan.next();
-				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getAllJobs().size()+1));
+				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
 				UPDriver.nextScreen();
 
 				if(!"b".equals(input)){
 					int jobSel = Integer.parseInt(input)-1;
-					if(UPDriver.jobs.canVolunteer(UPDriver.jobs.getAllJobs().get(jobSel), (VolUser) UPDriver.myCurrentUser))SignUpForJob(jobSel, scan);
+					if(UPDriver.jobs.canVolunteer(UPDriver.jobs.getPendingJobs().get(jobSel), (VolUser) UPDriver.myCurrentUser))SignUpForJob(jobSel, scan);
 					else System.out.println("Cannot volunteer for multiple jobs on the sameday.\n\n");
 				}
 			} else if(userSelection == 2){
@@ -54,15 +54,15 @@ public class VolunteerDriver {
 
 	private void SignUpForJob(int theJobIndex, Scanner theScanner){
 		System.out.println("Spots remaining...");
-		System.out.print(UPDriver.jobs.getAllJobs().get(theJobIndex).displayOpenings());
+		System.out.print(UPDriver.jobs.getPendingJobs().get(theJobIndex).displayOpenings());
 		String input = "";
 		do {
 			System.out.print("Select intensity to sign up for or b to go back.");
 			input = theScanner.next();
-		} while (!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4 && UPDriver.jobs.getAllJobs().get(theJobIndex).hasAvailableSpot(Integer.parseInt(input))));
+		} while (!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4 && UPDriver.jobs.getPendingJobs().get(theJobIndex).hasAvailableSpot(Integer.parseInt(input))));
 		if(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4) {
 			int intensity = Integer.parseInt(input);			
-			System.out.println("\n\n"+UPDriver.jobs.getAllJobs().get(theJobIndex).addVolunteer((VolUser)UPDriver.myCurrentUser, intensity));
+			System.out.println("\n\n"+UPDriver.jobs.getPendingJobs().get(theJobIndex).addVolunteer((VolUser)UPDriver.myCurrentUser, intensity));
 
 		}
 		UPDriver.nextScreen();

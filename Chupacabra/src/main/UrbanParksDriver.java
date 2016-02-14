@@ -132,7 +132,7 @@ public class UrbanParksDriver {
 	public void ViewSummaryAllUpComingJobs() {
 		int i = 1;
 		System.out.println("Jobs...");
-		for(Job curJob : jobs.getAllJobs()){
+		for(Job curJob : jobs.getPendingJobs()){
 			System.out.println(i++ +". "+ curJob.listingToString());
 		}	
 	}

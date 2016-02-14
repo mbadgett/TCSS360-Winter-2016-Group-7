@@ -33,13 +33,14 @@ public class JobDB implements Serializable {
 	 */
 	public String addJob(Job theJob){
 		String result= "";
-		if(theJob.getJobLength()>2 || theJob.getJobLength() < 0) result = "Job length is invalid.";
+		if(theJob.getJobLength()>2 || theJob.getJobLength() < 0) result = "Job length is invalid.";//
 		else if(jobsInWeek(theJob)>4)result = "Too many jobs in week.";
-		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) result = "Job must be in the future.";
+		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) result = "Job must be in the future.";//
 		else if(!within90(theJob)) result = "Job must be within 90 days.";
-		else if(getAllJobs().size()<30){
+		else if(getPendingJobs().contains(theJob)) result = "Job already exists."; //
+		else if(getPendingJobs().size()<30){
 			myJobs.add(theJob);
-			result="Job added.";
+			result="Job added.";//
 		}
 		
 		return result;
@@ -57,8 +58,8 @@ public class JobDB implements Serializable {
 
 	public int jobsInWeek(Job theJob) {
 		int i = 0;
-		for(Job j : getAllJobs()){
-			if(Math.abs(j.getStartDate().getTime()-theJob.getStartDate().getTime())> 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
+		for(Job j : getPendingJobs()){
+			if(Math.abs(j.getStartDate().getTime()-theJob.getStartDate().getTime()) < 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
 		}
 		return i;
 	}
@@ -75,7 +76,7 @@ public class JobDB implements Serializable {
 	/**will return all jobs, potentially for user story 4 and 11
 	 * @return
 	 */
-	public ArrayList<Job> getAllJobs(){
+	public ArrayList<Job> getPendingJobs(){
 		ArrayList<Job> pendingJobs = new ArrayList<Job>();
 		for(Job j:myJobs){
 			if(j.getStartDate().after(Calendar.getInstance().getTime()))pendingJobs.add(j);

@@ -152,7 +152,7 @@ public class ParkManagerDriver {
 		Job newJob = new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy);
 		String output = UPDriver.jobs.addJob(newJob);
 		if(output.equals("Job added.")){
-			UPDriver.jobs.getAllJobs().remove(theJob);
+			UPDriver.jobs.getPendingJobs().remove(theJob);
 			System.out.println("Job edited.");
 		}else System.out.println("\n\n\n"+output);//why could not edit		
 	}
