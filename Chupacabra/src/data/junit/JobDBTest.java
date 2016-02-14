@@ -2,6 +2,8 @@ package data.junit;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,12 +21,17 @@ public class JobDBTest {
 	/*
 	 * Initializes basic objects that will be used in all tests.
 	 */
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() throws Exception {
 		testDB = new JobDB();
 		testUser = new PMUser("last", "first", "email@email.com");
 		testPark = new Park("parkname", "address", testUser);
-		testJob = new Job("a", null, null, testPark, 0, 0, 0);
+		//test jobs wont work if the dates within are null
+		//not super sure what int light med heavy are supposed to indicate
+		testJob = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
+		testJob.getEndDate().setDate(testJob.getEndDate().getDate() + 1);
 	}
 
 	/*
@@ -38,8 +45,46 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testAddJob() {
+		//test to see if a job gets added to the list
 		testDB.addJob(testJob);
-		assertTrue(testDB.getAllJobs().size() == 1);
+		int size = testDB.getAllJobs().size();
+		assertEquals(size, 1);
+		
+		//can add the same job twice
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.addJob(testJob));
+//		System.out.println(testDB.jobsInWeek(testJob));
+		
+		//test to make sure a job with a start date in the future can't be added
+//		Job compareJob1 = new Job("b", new Date(), new Date(), testPark, 1, 1, 1);
+//		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(testJob));
+		
+		
+		//test to see if more than 5 jobs can be added in a week
+//		Job compareJob1 = new Job("b", new Date(), new Date(), testPark, 1, 1, 1);
+//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(compareJob1));
+////		testDB.addJob(compareJob1);
+//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(compareJob1));
+////		testDB.addJob(compareJob1);
+//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(compareJob1));
+////		testDB.addJob(compareJob1);
+//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(compareJob1));
+////		testDB.addJob(compareJob1);
+//		compareJob1.getStartDate().setDate(compareJob1.getStartDate().getDate() + 1);
+//		System.out.println(testDB.addJob(compareJob1));
+		
+		
 	}
 	
 	/*
@@ -47,7 +92,10 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testWithin90() {
-		
+		assertTrue(testDB.within90(testJob));
+		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 90);
+		testJob.getEndDate().setDate(testJob.getEndDate().getDate() + 91);
+		assertFalse(testDB.within90(testJob));
 	}
 	
 	/*
@@ -55,16 +103,26 @@ public class JobDBTest {
 	 */
 	@Test
 	public void testJobsInWeek() {
-		
+		assertEquals(testDB.jobsInWeek(testJob), 0);
+		testDB.addJob(testJob);
+		assertEquals(testDB.jobsInWeek(testJob), 1);
+		testDB.addJob(testJob);
+		testDB.addJob(testJob);
+		testDB.addJob(testJob);
+		testDB.addJob(testJob); //5 jobs currently in week
+		assertEquals(testDB.jobsInWeek(testJob), 5);
 	}
 	
 	/*
-	 * Tests to see if the job gets added appropriately.
+	 * Tests to see if the job gets deleted appropriately.
 	 * Uses the get method to see if it's there.
 	 */
 	@Test
 	public void testDeleteJob() {
-		fail("Not yet implemented");
+		testDB.addJob(testJob);
+		assertEquals(testDB.getAllJobs().size(), 1);
+		testDB.deleteJob(testJob);
+		assertEquals(testDB.getAllJobs().size(), 0);
 	}
 
 	/*
@@ -77,6 +135,8 @@ public class JobDBTest {
 		//can't test job list integrity yet
 		testDB = new JobDB();
 		assertTrue(testDB.getAllJobs().size() == 0);
+		testDB.addJob(testJob);
+		
 	}
 
 	/*
