@@ -139,6 +139,14 @@ public class Job implements Serializable{
 		if(hMax>hCount)sb.append("3. Heavy: "+(hMax-hCount)+" Spots remaining\n");		
 		return sb.toString();
 	}
+	
+	public String displayVolunteerInfo() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Light: "+lCount+"/"+lMax+" Spots filled.\n");
+		sb.append("Medium: "+mCount+"/"+mMax+" Spots filled.\n");
+		sb.append("Heavy: "+hCount+"/"+hMax+" Spots filled.\n");		
+		return sb.toString();
+	}
 
 	public boolean hasAvailableSpot(int theIntensity) {
 		boolean result = false;
@@ -153,7 +161,7 @@ public class Job implements Serializable{
 	}
 	@SuppressWarnings("deprecation")
 	public String listingToString() {
-		return myPark.getName() + ": " + myStartDate.getMonth() + "/" + myStartDate.getDay()
-		+ ": " + myDescription.substring(0, Math.min(15, myDescription.length()-4)) + "...";
+		return myPark.getName() + ": " + (myStartDate.getMonth()+1) + "/" + myStartDate.getDate()
+		+ ": " + myDescription.substring(0, Math.min(20, myDescription.length()-4)) + "...";
 	}
 }

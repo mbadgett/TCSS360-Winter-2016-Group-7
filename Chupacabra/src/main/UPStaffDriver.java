@@ -45,7 +45,11 @@ public class UPStaffDriver {
 					input = scan.next();
 				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
 				UPDriver.nextScreen();
-				if(!"b".equals(input))System.out.println(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1));
+				if(!"b".equals(input)){
+					System.out.println(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1));
+					System.out.println("\n\nVolunteer info...");
+					System.out.print(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1).displayVolunteerInfo()+"\n\n");
+				}
 			} else if(userSelection == 3){
 				volunteerContinue = false;
 				UPDriver.quit();
