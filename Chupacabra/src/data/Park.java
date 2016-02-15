@@ -61,9 +61,9 @@ public class Park implements Serializable{
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(myName);
-		sb.append('(');
+		sb.append(" (");
 		sb.append(myAddress);		
-		sb.append(')');		
+		sb.append(") ");		
 		return sb.toString();
 	}
 	

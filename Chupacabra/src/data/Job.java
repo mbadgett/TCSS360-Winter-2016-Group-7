@@ -161,7 +161,7 @@ public class Job implements Serializable{
 	}
 	@SuppressWarnings("deprecation")
 	public String listingToString() {
-		return myPark.getName() + ": " + (myStartDate.getMonth()+1) + "/" + myStartDate.getDate()
-		+ ": " + myDescription.substring(0, Math.min(20, myDescription.length()-4)) + "...";
+		return myPark.getName() + " (" + (myStartDate.getMonth()+1) + "/" + myStartDate.getDate()
+		+ "): " + myDescription.substring(0, Math.min(20, myDescription.length()-4)) + "...";
 	}
 }

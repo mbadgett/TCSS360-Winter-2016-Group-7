@@ -72,7 +72,7 @@ public class VolunteerDriver {
 		String input = "";
 		ArrayList<Job> volunteeredJobs = UPDriver.jobs.getVolunteerJobs((VolUser)UPDriver.myCurrentUser);
 		for(int i = 0; i<volunteeredJobs.size();i++) {
-			System.out.println((i+1) + ". "+volunteeredJobs.get(i));
+			System.out.println((i+1) + ". "+volunteeredJobs.get(i).listingToString());
 		}
 		do {
 			System.out.print("Select job for further details or enter b to go back:");
