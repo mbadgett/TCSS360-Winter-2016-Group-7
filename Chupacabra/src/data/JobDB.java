@@ -59,7 +59,7 @@ public class JobDB implements Serializable {
 	public int jobsInWeek(Job theJob) {
 		int i = 0;
 		for(Job j : getPendingJobs()){
-			if(Math.abs(j.getStartDate().getTime()-theJob.getStartDate().getTime()) < 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
+			if(Math.abs(j.getStartDate().getTime()-theJob.getStartDate().getTime()) <= 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
 		}
 		return i;
 	}
