@@ -29,7 +29,7 @@ public class ParkTest {
 		assertEquals(a, a);
 		assertEquals(a, b);
 		assertEquals(b, a);
-		assertEquals(a, c);
+		assertFalse(a.equals(c));
 	}
 
 }

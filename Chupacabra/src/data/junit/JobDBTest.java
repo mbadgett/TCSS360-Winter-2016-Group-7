@@ -30,7 +30,7 @@ public class JobDBTest {
 		testPark = new Park("parkname", "address", testPMUser);
 
 		//A job in one day
-		testJob = new Job("a", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob = new Job("1", new Date(), new Date(), testPark, 5, 3, 3);
 		testJob.getStartDate().setDate(testJob.getStartDate().getDate() + 1);
 		testJob.getEndDate().setDate(testJob.getEndDate().getDate() + 1);
 		
@@ -255,11 +255,14 @@ public class JobDBTest {
 		testJob.addVolunteer(testVolunteer, 1);
 		assertFalse(testDB.canVolunteer(testJob, testVolunteer));
 		
+		//test registering for a job that's the same time
+		Job testJob2 = new Job("2", new Date(), new Date(), testPark, 5, 3, 3);
+		testJob2.getStartDate().setTime(testJob.getStartDate().getTime());
+		testJob2.getStartDate().setTime(testJob.getStartDate().getTime());
 		
-		//can volunteer for a job with the right intensity
-		//cant volunteer for a job with no slots
+		testDB.addJob(testJob2);
+		assertFalse(testDB.canVolunteer(testJob2, testVolunteer));
 		
-		//cant volunteer for a job with the wrong intensity
 	}
 
 }

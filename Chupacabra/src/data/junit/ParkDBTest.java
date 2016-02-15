@@ -6,19 +6,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import data.Park;
+import data.ParkDB;
+import users.PMUser;
+
 public class ParkDBTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/*
-	 * PERHAPS a test to see if a bad park can be added (null parameters)
-	 */
-	@Test
-	public void testAddPark() {
-		fail("Not yet implemented");
-	}
 
 	/*
 	 * Tests on a non-existing PMUser
@@ -26,6 +18,15 @@ public class ParkDBTest {
 	 */
 	@Test
 	public void testGetParksManagedByPMUser() {
+		PMUser testUser = new PMUser("last", "first", "email");
+		Park testPark = new Park("name", "address", testUser);
+		ParkDB testDB = new ParkDB();
 		
+		//no managers yet
+		assertEquals(testDB.getParksManagedBy(testUser).size(), 0);
+		
+		//test finding the right manager
+		testDB.addPark(testPark);
+		assertEquals(testDB.getParksManagedBy(testUser).size(), 1);
 	}
 }

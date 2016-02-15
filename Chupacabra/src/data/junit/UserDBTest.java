@@ -9,37 +9,20 @@ import data.UserDB;
 import users.VolUser;
 
 public class UserDBTest {
+	UserDB testDB;
+	VolUser testUser;
 
 	@Before
 	public void setUp() throws Exception {
+		testDB = new UserDB();
+		testUser = new VolUser("last", "first", "email");
 	}
 
-	/*
-	 * Tests users with the same fields
-	 * Tests users with the same fields except email
-	 * 
-	 */
 	@Test
 	public void testGetUser() {
-		
-	}
-	
-	/*
-	 * Tests to verify if any users exist at initialization (none expected)
-	 * Tests to see if a user can be added, and checks to see if it got added with getUsers
-	 * Tests to see if a bad user can be added (improper fields or null parameters)
-	 * 
-	 */
-	@Test
-	public void testAddUser() {
-		UserDB testDB = new UserDB();
-		//check to ensure there's no users right now
-		VolUser testUser = new VolUser("last", "first", "email@email.com");
 		testDB.addUser(testUser);
-		//fetch user list
-		//check to see if it's just this user in the collection
-		//check details of user to ensure it's the right one
-		//see if adding in null info in the user and adding it to the testDB breaks it
+		assertEquals(testDB.getUser("not the email"), null);
+		assertEquals(testDB.getUser("email"), testUser);
 	}
 
 	//instantiate
@@ -50,25 +33,25 @@ public class UserDBTest {
 	//addUser handles user adding integrity
 	@Test
 	public void testGetVolunteers() {
-
-		fail("Not yet implemented");
+		assertEquals(testDB.getVolunteers().size(), 0);
+		
+		testDB.addUser(testUser);
+		assertEquals(testDB.getVolunteers().size(), 1);
 	}
 
-	//instantiate
-	//test on a name (expect nothing or an exception)
-	//add a user with a specific last name
-	//search for a different name than the one put in
-	//should say no name found
-	//search for the first name
-	//should say no name found
-	//search for the email
-	//should say no name found
-	//search for the right last name
-	//should say name found
 	@Test
 	public void testSearchByLName() {
-
-		fail("Not yet implemented");
+		//test empty DB and non matches
+		assertEquals(testDB.searchByLName("not a name").size(), 0);
+		
+		//test last name searching
+		testDB.addUser(testUser);
+		assertEquals(testDB.searchByLName("last").get(0), testUser);
+		
+		//test searching for the multiple instances of the same last name
+		VolUser testUser2 = new VolUser("last", "diff first", "diff email");
+		testDB.addUser(testUser2);
+		assertEquals(testDB.searchByLName("last").size(), 2);
 	}
 
 }

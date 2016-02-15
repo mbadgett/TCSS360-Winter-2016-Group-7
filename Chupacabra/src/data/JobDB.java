@@ -139,7 +139,8 @@ public class JobDB implements Serializable {
 			if(!j.equals(theJob) && j.getVolunteers().contains(theVolunteer) && (theJob.getStartDate().equals(j.getStartDate()) 
 					|| theJob.getStartDate().equals(j.getEndDate())
 							|| theJob.getEndDate().equals(j.getStartDate())
-									|| theJob.getEndDate().equals(j.getEndDate())))result = false;
+									|| theJob.getEndDate().equals(j.getEndDate()))
+											|| theJob.getVolunteers().contains(theVolunteer))result = false;
 		}//Jobs may only last two days 4 possible violations of same day rule, no time so dates = on given days.		
 		return result;
 	}
