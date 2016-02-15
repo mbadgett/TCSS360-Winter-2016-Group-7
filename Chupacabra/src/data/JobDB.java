@@ -33,7 +33,7 @@ public class JobDB implements Serializable {
 	 */
 	public String addJob(Job theJob){
 		String result= "";
-		if(theJob.getJobLength()>2 || theJob.getJobLength() < 0) result = "Job length is invalid.";//
+		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0) result = "Job length is invalid.";//
 		else if(jobsInWeek(theJob)>4)result = "Too many jobs in week.";
 		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) result = "Job must be in the future.";//
 		else if(!within90(theJob)) result = "Job must be within 90 days.";
