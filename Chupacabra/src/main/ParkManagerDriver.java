@@ -7,11 +7,12 @@ import java.util.Scanner;
 import data.Job;
 import data.Park;
 import users.PMUser;
+import users.VolUser;
 
 public class ParkManagerDriver {
-	
+
 	private UrbanParksDriver UPDriver;
-	
+
 	public ParkManagerDriver(UrbanParksDriver urbanParksDriver) {
 		UPDriver = urbanParksDriver;
 	}
@@ -23,7 +24,7 @@ public class ParkManagerDriver {
 			System.out.println("1. View managed parks.");
 			System.out.println("2. View summary of all upcoming jobs at Parks that I manage.");
 			System.out.println("3. Quit.");			
-			
+
 			int userSelection = -1;			
 			String input = "";
 			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4)){
@@ -32,11 +33,11 @@ public class ParkManagerDriver {
 			}
 			UPDriver.nextScreen();
 			userSelection = Integer.parseInt(input);
-			
-			
-			
+
+
+
 			if(userSelection == 1){
-				
+
 				viewManagedParks(scan);
 			} else if(userSelection == 2){
 				for(Job j:UPDriver.jobs.getParkManagerJobs((PMUser)UPDriver.myCurrentUser))System.out.println(j);
@@ -52,8 +53,8 @@ public class ParkManagerDriver {
 			}			
 		}		
 	}
-	
-	
+
+
 	private void viewManagedParks(Scanner theScanner) {
 		ArrayList<Park> managedParks = UPDriver.parks.getParksManagedBy((PMUser)UPDriver.myCurrentUser);
 		int i = 1;
@@ -61,7 +62,7 @@ public class ParkManagerDriver {
 		for(Park  p: managedParks){
 			System.out.println(i++ +". "+p);
 		}
-		
+
 		String input = "";
 		do {
 			System.out.print("Select park for more options or b to go back:");
@@ -74,7 +75,7 @@ public class ParkManagerDriver {
 			System.out.println("1. Add job.");
 			System.out.println("2. View jobs.");
 			System.out.println("3. Go back...");			
-			
+
 			int userSelection = -1;			
 			input = "";
 			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4)){
@@ -83,7 +84,7 @@ public class ParkManagerDriver {
 			}
 			UPDriver.nextScreen();
 			userSelection = Integer.parseInt(input);			
-			
+
 			if(userSelection == 1){				
 				SubmitJob(theScanner, managedParks.get(parkSelection));
 			} else if(userSelection == 2){
@@ -92,7 +93,7 @@ public class ParkManagerDriver {
 		}
 		UPDriver.nextScreen();		
 	}
-	
+
 
 	private void viewParkJobs(Scanner theScanner, Park thePark) {
 		ArrayList<Job> parkJobs = UPDriver.jobs.getParkJobs(thePark);		
@@ -114,27 +115,32 @@ public class ParkManagerDriver {
 			System.out.print(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1).displayVolunteerInfo()+"\n\n");			
 			System.out.println("1. Delete.");
 			System.out.println("2. Modify.");
-			System.out.println("3. Go back...");			
+			System.out.println("3. View volunters.");
+			System.out.println("4. Go back...");			
 
 			int userSelection = -1;			
 			input = "";
-			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4)){
+			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 5)){
 				System.out.print("Please enter your choice:");
 				input = theScanner.next();
 			}
 			UPDriver.nextScreen();
 			userSelection = Integer.parseInt(input);
-			
+
 			if(userSelection == 1){				
 				UPDriver.jobs.deleteJob(parkJobs.get(jobSel));
 				System.out.println("Job deleted.");
 			} else if(userSelection == 2){
 				EditJob(theScanner, parkJobs.get(jobSel), thePark);
-			}else if (userSelection == 3);			
+			} else if (userSelection == 3){
+				for(VolUser v: parkJobs.get(jobSel).getVolunteers()){
+					System.out.println(v);
+				}
+			}else if (userSelection == 4);			
 			UPDriver.nextScreen();			
 		}		
 	}	
-	
+
 	private void EditJob(Scanner theScanner, Job theJob, Park thePark) {
 		theScanner.nextLine();
 		System.out.print("Please enter new job description:");
@@ -158,8 +164,8 @@ public class ParkManagerDriver {
 			System.out.println("Job edited.");
 		}else System.out.println("\n\n\n"+output);//why could not edit		
 	}
-	
-	
+
+
 	private void SubmitJob(Scanner scan, Park thePark){
 		scan.nextLine();
 		System.out.print("Please enter job description:");
@@ -177,6 +183,6 @@ public class ParkManagerDriver {
 		System.out.print("Please enter the max for heavy workers:");
 		int heavy = scan.nextInt();
 		System.out.println(UPDriver.jobs.addJob(new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy)));
-		
+
 	}
 }
