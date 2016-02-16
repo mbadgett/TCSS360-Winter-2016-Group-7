@@ -81,10 +81,8 @@ public class JobDB implements Serializable {
 	public ArrayList<Job> getPendingJobs(){
 		ArrayList<Job> pendingJobs = new ArrayList<Job>();
 		for(Job j:myJobs){
-			if(j.getStartDate().after(Calendar.getInstance().getTime()))pendingJobs.add(j);
-		}
-		
-		
+			if(j.getEndDate().after(Calendar.getInstance().getTime()) && within90(j))pendingJobs.add(j);
+		}		
 		return myJobs;
 	}
 	
