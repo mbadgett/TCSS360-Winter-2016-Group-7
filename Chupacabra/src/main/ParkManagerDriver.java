@@ -161,8 +161,7 @@ public class ParkManagerDriver {
 		UPDriver.jobs.getPendingJobs().remove(theJob);//remove first
 		
 		String output = UPDriver.jobs.addJob(newJob);
-		if(output.equals("Job added.")){
-			UPDriver.jobs.getPendingJobs().remove(theJob);
+		if(output.equals("Job added.")){			
 			System.out.println("Job edited.");
 		}else {
 			System.out.println("\n\n\n"+output);//why could not edit
