@@ -114,6 +114,17 @@ public class JobDBTest {
 		assertEquals(testDB.addJob(testJob6), "Too many jobs in week.");
 	}
 	
+	@Test
+	public void testAddMoreThan30Jobs() {
+		for (int i = 1; i <= 30; i++) {
+			Job test = new Job("i", new Date(), new Date(), testPark, 1, 1, 1);
+			test.getStartDate().setDate(test.getStartDate().getDate() + i + 3);
+			test.getEndDate().setDate(test.getEndDate().getDate() + i + 4);
+			testDB.addJob(test);
+		}
+		assertEquals(testDB.addJob(testJob), "Maximum number of jobs reached.");
+	}
+	
 	/*
 	 * Test on a job within 90 days, and one outside of 90 days.
 	 */

@@ -38,8 +38,8 @@ public class JobDB implements Serializable {
 		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) result = "Job must be in the future.";//
 		else if(!within90(theJob)) result = "Job must be within 90 days.";
 		else if(getPendingJobs().contains(theJob)) result = "Job already exists."; //
-		else if(getPendingJobs().size()<30){
-			result="Maximum number of jobs reacehd.";
+		else if(getPendingJobs().size() >= 30){
+			result="Maximum number of jobs reached.";
 		} else {
 			myJobs.add(theJob);
 			result="Job added.";//
