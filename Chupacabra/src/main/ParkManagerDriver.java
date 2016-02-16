@@ -112,7 +112,7 @@ public class ParkManagerDriver {
 			int jobSel = Integer.parseInt(input)-1;
 			System.out.println("Options for " + parkJobs.get(jobSel));
 			System.out.println("\n\nVolunteer info...");
-			System.out.print(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1).displayVolunteerInfo()+"\n\n");			
+			System.out.print(parkJobs.get(jobSel).displayVolunteerInfo()+"\n\n");			
 			System.out.println("1. Delete.");
 			System.out.println("2. Modify.");
 			System.out.println("3. View volunters.");
