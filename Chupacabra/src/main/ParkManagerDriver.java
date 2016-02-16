@@ -158,11 +158,16 @@ public class ParkManagerDriver {
 		System.out.print("Please enter the new max for heavy workers:");
 		int heavy = theScanner.nextInt();
 		Job newJob = new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy);
+		UPDriver.jobs.getPendingJobs().remove(theJob);//remove first
+		
 		String output = UPDriver.jobs.addJob(newJob);
 		if(output.equals("Job added.")){
 			UPDriver.jobs.getPendingJobs().remove(theJob);
 			System.out.println("Job edited.");
-		}else System.out.println("\n\n\n"+output);//why could not edit		
+		}else {
+			System.out.println("\n\n\n"+output);//why could not edit
+			UPDriver.jobs.addJob(theJob);
+		}
 	}
 
 
