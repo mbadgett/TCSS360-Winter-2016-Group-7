@@ -8,6 +8,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import exceptions.DuplicateJobException;
+import exceptions.JobFutureException;
+import exceptions.JobLengthException;
+import exceptions.JobMaxException;
+import exceptions.JobPastException;
+import exceptions.JobsInWeekException;
 import users.PMUser;
 import users.VolUser;
 
@@ -20,8 +26,8 @@ public class JobDB implements Serializable {
 	private static final long serialVersionUID = -2757438807790008719L;
 	/**The actual collection of jobs. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/
 	public ArrayList<Job> myJobs;
-	
-	
+
+
 	/***/
 	public JobDB(){
 		myJobs = new ArrayList<Job>();
@@ -30,29 +36,34 @@ public class JobDB implements Serializable {
 
 	/**Add job to the DB USER STORY 1
 	 * @param theJob
+	 * @throws JobMaxException 
+	 * @throws DuplicateJobException 
+	 * @throws JobFutureException 
+	 * @throws JobPastException 
+	 * @throws JobsInWeekException 
+	 * @throws JobLengthException 
 	 */
-	public String addJob(Job theJob){
-		String result= "";
-		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0) result = "Job length is invalid.";//
-		else if(jobsInWeek(theJob)>4)result = "Too many jobs in week.";
-		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) result = "Job must be in the future.";//
-		else if(!within90(theJob)) result = "Job must be within 90 days.";
-		else if(getPendingJobs().contains(theJob)) result = "Job already exists."; //
-		else if(getPendingJobs().size() >= 30){
-			result="Maximum number of jobs reached.";
-		} else {
-			myJobs.add(theJob);
-			result="Job added.";//
-		}
+	public void addJob(Job theJob) throws JobMaxException, DuplicateJobException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{
 		
-		return result;
+		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0)throw new JobLengthException();
+		else if(jobsInWeek(theJob)>4) throw new JobsInWeekException();
+		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) throw new JobPastException();
+		else if(!within90(theJob)) throw new JobFutureException();
+		else if(getPendingJobs().contains(theJob)) throw new DuplicateJobException();
+		else if(getPendingJobs().size() >= 30) throw new JobMaxException();
+		else myJobs.add(theJob);			
+				
+
+
 	}
 
 	public boolean within90(Job theJob) {
 		boolean result = false;
+
 		long today = Calendar.getInstance().getTimeInMillis();
 		
 		long jobsTime = theJob.getStartDate().getTimeInMillis();
+
 		result = ((jobsTime-today )- 90*TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)) < 0;		
 		return result;
 	}
@@ -85,14 +96,14 @@ public class JobDB implements Serializable {
 		}		
 		return myJobs;
 	}
-	
-	
-//	/**For the purpose of editing the details of a job USER STORY 3
-//	 * @return
-//	 */
-//	public Job getJob(){
-//		return null;
-//	}
+
+
+	//	/**For the purpose of editing the details of a job USER STORY 3
+	//	 * @return
+	//	 */
+	//	public Job getJob(){
+	//		return null;
+	//	}
 
 	/**USER STORY 8
 	 * @param theParkManager
@@ -108,7 +119,7 @@ public class JobDB implements Serializable {
 		//iteratively cycle through the jobs check if Job myManager.equals(theParkManager)
 		return result;
 	}
-	
+
 	/**USER STORY 7
 	 * @param theParkManager
 	 * @return
@@ -132,15 +143,15 @@ public class JobDB implements Serializable {
 		}
 		return result;
 	}
-	
+
 	public boolean canVolunteer(Job theJob, VolUser theVolunteer){
 		boolean result = true;
 		for(Job j : myJobs){
 			if(!j.equals(theJob) && j.getVolunteers().contains(theVolunteer) && (theJob.getStartDate().equals(j.getStartDate()) 
 					|| theJob.getStartDate().equals(j.getEndDate())
-							|| theJob.getEndDate().equals(j.getStartDate())
-									|| theJob.getEndDate().equals(j.getEndDate()))
-											|| theJob.getVolunteers().contains(theVolunteer))result = false;
+					|| theJob.getEndDate().equals(j.getStartDate())
+					|| theJob.getEndDate().equals(j.getEndDate()))
+					|| theJob.getVolunteers().contains(theVolunteer))result = false;
 		}//Jobs may only last two days 4 possible violations of same day rule, no time so dates = on given days.		
 		return result;
 	}
