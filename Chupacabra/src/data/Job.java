@@ -131,21 +131,21 @@ public class Job implements Serializable{
 		return sb.toString();
 	}
 	
-	public String displayOpenings(){
-		StringBuilder sb = new StringBuilder();
-		if(lMax>lCount)sb.append("1. Light: "+(lMax-lCount)+" Spots remaining\n");
-		if(mMax>mCount)sb.append("2. Medium: "+(mMax-mCount)+" Spots remaining\n");
-		if(hMax>hCount)sb.append("3. Heavy: "+(hMax-hCount)+" Spots remaining\n");		
-		return sb.toString();
-	}
-	
-	public String displayVolunteerInfo() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Light: "+lCount+"/"+lMax+" Spots filled.\n");
-		sb.append("Medium: "+mCount+"/"+mMax+" Spots filled.\n");
-		sb.append("Heavy: "+hCount+"/"+hMax+" Spots filled.\n");		
-		return sb.toString();
-	}
+//	public String displayOpenings(){
+//		StringBuilder sb = new StringBuilder();
+//		if(lMax>lCount)sb.append("1. Light: "+(lMax-lCount)+" Spots remaining\n");
+//		if(mMax>mCount)sb.append("2. Medium: "+(mMax-mCount)+" Spots remaining\n");
+//		if(hMax>hCount)sb.append("3. Heavy: "+(hMax-hCount)+" Spots remaining\n");		
+//		return sb.toString();
+//	}
+//	
+//	public String displayVolunteerInfo() {
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("Light: "+lCount+"/"+lMax+" Spots filled.\n");
+//		sb.append("Medium: "+mCount+"/"+mMax+" Spots filled.\n");
+//		sb.append("Heavy: "+hCount+"/"+hMax+" Spots filled.\n");		
+//		return sb.toString();
+//	}
 
 	public boolean hasAvailableSpot(int theIntensity) {
 		boolean result = false;
@@ -160,8 +160,8 @@ public class Job implements Serializable{
 	}
 	
 	
-	public String listingToString() {
-		return myPark.getName() + " (" + (myStartDate.get(Calendar.MONTH)+1) + "/" + myStartDate.get(Calendar.DATE) + "-" + myEndDate.get(Calendar.DATE)
-		+ "): " + myDescription.substring(0, Math.max(0, Math.min(20, myDescription.length()-4))) + "...";
-	}
+//	public String listingToString() {
+//		return myPark.getName() + " (" + (myStartDate.get(Calendar.MONTH)+1) + "/" + myStartDate.get(Calendar.DATE) + "-" + myEndDate.get(Calendar.DATE)
+//		+ "): " + myDescription.substring(0, Math.max(0, Math.min(20, myDescription.length()-4))) + "...";
+//	}
 }
