@@ -59,9 +59,11 @@ public class JobDB implements Serializable {
 
 	public boolean within90(Job theJob) {
 		boolean result = false;
-		long today = Calendar.getInstance().getTime().getTime();
 
-		long jobsTime = theJob.getStartDate().getTime();
+		long today = Calendar.getInstance().getTimeInMillis();
+		
+		long jobsTime = theJob.getStartDate().getTimeInMillis();
+
 		result = ((jobsTime-today )- 90*TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)) < 0;		
 		return result;
 	}
@@ -70,7 +72,7 @@ public class JobDB implements Serializable {
 	public int jobsInWeek(Job theJob) {
 		int i = 0;
 		for(Job j : getPendingJobs()){
-			if(Math.abs(j.getStartDate().getTime()-theJob.getStartDate().getTime()) <= 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
+			if(Math.abs(j.getStartDate().getTimeInMillis()-theJob.getStartDate().getTimeInMillis()) <= 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
 		}
 		return i;
 	}
