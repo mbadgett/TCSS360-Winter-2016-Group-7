@@ -159,6 +159,51 @@ public class Job implements Serializable{
 		return result;
 	}
 	
+	public ArrayList<VolUser> getMyVolunteers() {
+		return myVolunteers;
+	}
+
+	public Park getMyPark() {
+		return myPark;
+	}
+
+	public String getMyDescription() {
+		return myDescription;
+	}
+
+	public Calendar getMyStartDate() {
+		return myStartDate;
+	}
+
+	public Calendar getMyEndDate() {
+		return myEndDate;
+	}
+
+	public int getlMax() {
+		return lMax;
+	}
+
+	public int getmMax() {
+		return mMax;
+	}
+
+	public int gethMax() {
+		return hMax;
+	}
+
+	public int getlCount() {
+		return lCount;
+	}
+
+	public int getmCount() {
+		return mCount;
+	}
+
+	public int gethCount() {
+		return hCount;
+	}
+
+	
 	
 //	public String listingToString() {
 //		return myPark.getName() + " (" + (myStartDate.get(Calendar.MONTH)+1) + "/" + myStartDate.get(Calendar.DATE) + "-" + myEndDate.get(Calendar.DATE)

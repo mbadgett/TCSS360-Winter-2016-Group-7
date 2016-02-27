@@ -54,7 +54,7 @@ public class VolunteerDriver {
 
 	private void SignUpForJob(int theJobIndex, Scanner theScanner){
 		System.out.println("Spots remaining...");
-		System.out.print(UPDriver.jobs.getPendingJobs().get(theJobIndex).displayOpenings());
+		System.out.print(UPDriver.displayOpenings(UPDriver.jobs.getPendingJobs().get(theJobIndex)));
 		String input = "";
 		do {
 			System.out.print("Select intensity to sign up for or b to go back.");
@@ -72,7 +72,7 @@ public class VolunteerDriver {
 		String input = "";
 		ArrayList<Job> volunteeredJobs = UPDriver.jobs.getVolunteerJobs((VolUser)UPDriver.myCurrentUser);
 		for(int i = 0; i<volunteeredJobs.size();i++) {
-			System.out.println((i+1) + ". "+volunteeredJobs.get(i).listingToString());
+			System.out.println((i+1) + ". "+ UPDriver.listingToString(volunteeredJobs.get(i)));
 		}
 		do {
 			System.out.print("Select job for further details or enter b to go back:");
