@@ -30,43 +30,15 @@ public class VolunteerDriver {
 			int userSelection = -1;
 			String input = "";
 			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4)){
-				//System.out.print("Please enter your choice:");
 				input = scan.next();
 			}
-			//UPDriver.nextScreen();
+	
 			userSelection = Integer.parseInt(input);
 
 			if(userSelection == 1){			
-				UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of upcoming jobs");
-				UPDriver.ViewSummaryAllUpComingJobs();				
-				do{
-					System.out.print("Enter job number to sign up or b to go back:");
-					input = scan.next();
-				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
-				//UPDriver.nextScreen();
-
-				if(!"b".equals(input)){
-					UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - Sign up for job");
-					int jobSel = Integer.parseInt(input)-1;
-					System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
-					if(UPDriver.jobs.canVolunteer(UPDriver.jobs.getPendingJobs().get(jobSel), (VolUser) UPDriver.myCurrentUser))
-						SignUpForJob(jobSel, scan);
-					else System.out.println("Cannot volunteer for multiple jobs on the sameday.\n\n");
-				}
+				viewSummaryofAllJobs(input, scan);
 			} else if(userSelection ==2){
-				UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of Upcoming jobs");
-				UPDriver.ViewSummaryAllUpComingJobs();				
-				do{
-					System.out.print("Enter job number to view details or b to go back:");
-					input = scan.next();
-				}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
-				UPDriver.nextScreen();
-				if(!"b".equals(input)){
-					UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View detail of selected upcoming job");
-					int jobSel = Integer.parseInt(input)-1;
-					System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
-					//UPDriver.nextScreen();
-				}
+				viewDetailofAJob(input, scan);
 			} else if(userSelection == 3){
 				UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Signed up jobs");
 				ViewJobsSignedUp(scan);
@@ -74,6 +46,41 @@ public class VolunteerDriver {
 				volunteerContinue = false;
 				UPDriver.quit();
 			}
+		}
+	}
+	
+	private void viewSummaryofAllJobs(String input, Scanner scan){
+		UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of upcoming jobs");
+		UPDriver.ViewSummaryAllUpComingJobs();				
+		do{
+			System.out.print("Enter job number to sign up or b to go back:");
+			input = scan.next();
+		}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
+
+
+		if(!"b".equals(input)){
+			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - Sign up for job");
+			int jobSel = Integer.parseInt(input)-1;
+			System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
+			if(UPDriver.jobs.canVolunteer(UPDriver.jobs.getPendingJobs().get(jobSel), (VolUser) UPDriver.myCurrentUser))
+				SignUpForJob(jobSel, scan);
+			else System.out.println("Cannot volunteer for multiple jobs on the sameday.\n\n");
+		}
+	}
+	
+	private void viewDetailofAJob(String input, Scanner scan){
+		UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of Upcoming jobs");
+		UPDriver.ViewSummaryAllUpComingJobs();				
+		do{
+			System.out.print("Enter job number to view details or b to go back:");
+			input = scan.next();
+		}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
+		UPDriver.nextScreen();
+		if(!"b".equals(input)){
+			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View detail of selected upcoming job");
+			int jobSel = Integer.parseInt(input)-1;
+			System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
+			//UPDriver.nextScreen();
 		}
 	}
 
