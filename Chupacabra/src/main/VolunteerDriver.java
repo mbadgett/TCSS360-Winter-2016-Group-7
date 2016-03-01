@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import data.Job;
-import users.AbstractUser;
 import users.VolUser;
 
 public class VolunteerDriver {
@@ -29,7 +28,7 @@ public class VolunteerDriver {
 
 			int userSelection = -1;
 			String input = "";
-			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 4)){
+			while(userSelection < 0 && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < 5)){
 				input = scan.next();
 			}
 	

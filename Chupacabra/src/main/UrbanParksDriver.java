@@ -179,7 +179,7 @@ public class UrbanParksDriver {
 		else if( theUser instanceof VolUser)
 			System.out.println("            Volunteer                   ");
 		
-		System.out.println("------------"+theMenu+"-----------------\n");
+		System.out.println("----------- "+theMenu+" ----------------\n");
 		
 	}
 	

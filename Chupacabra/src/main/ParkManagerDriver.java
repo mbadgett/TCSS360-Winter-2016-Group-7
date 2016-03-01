@@ -169,13 +169,7 @@ public class ParkManagerDriver {
 		UPDriver.jobs.addJob(newJob);
 		System.out.println("Job edited!");
 		}catch(Exception ex){UPDriver.errorHandle(ex);}
-		
-//		if(output.equals("Job added.")){			
-//			System.out.println("Job edited.");
-//		}else {
-//			System.out.println("\n\n\n"+output);//why could not edit
-//			UPDriver.jobs.addJob(theJob);
-//		}
+
 	}
 
 
