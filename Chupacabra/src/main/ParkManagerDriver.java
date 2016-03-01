@@ -165,9 +165,11 @@ public class ParkManagerDriver {
 		int heavy = theScanner.nextInt();
 		Job newJob = new Job(description,UPDriver.dateToCalendar(jobDateStart), UPDriver.dateToCalendar(jobDateEnd), thePark, light, medium,heavy);
 		UPDriver.jobs.getPendingJobs().remove(theJob);//remove first
-		
+		try{
 		UPDriver.jobs.addJob(newJob);
 		System.out.println("Job edited!");
+		}catch(Exception ex){UPDriver.errorHandle(ex);}
+		
 //		if(output.equals("Job added.")){			
 //			System.out.println("Job edited.");
 //		}else {
@@ -193,7 +195,10 @@ public class ParkManagerDriver {
 		int medium = scan.nextInt();
 		System.out.print("Please enter the max for heavy workers:");
 		int heavy = scan.nextInt();
+		try{
 		UPDriver.jobs.addJob(new Job(description, UPDriver.dateToCalendar(jobDateStart), UPDriver.dateToCalendar(jobDateEnd), thePark, light, medium,heavy));
 		System.out.println("Job added!");
+		}catch(Exception ex){UPDriver.errorHandle(ex);}
+		
 	}
 }

@@ -34,7 +34,7 @@ public class UrbanParksDriver {
 		parks = new ParkDB();
 		users = new UserDB();
 		
-		populateData();//comment in to repopulate data
+		//populateData();//comment in to repopulate data
 		
 		initDB();//comment out for repopulate
 	}
@@ -169,9 +169,9 @@ public class UrbanParksDriver {
 	
 	//Pass the abstract user and the menu name to this method to print the header
 	public void displayHeader(AbstractUser theUser, String theMenu){
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("            Urban Park                    ");
-		System.out.println("           "+theUser.getName()+"          ");
+		System.out.println("            "+theUser.getName()+"          ");
 		if(theUser instanceof PMUser)
 			System.out.println("            Park Manager                   ");
 		else if( theUser instanceof UPSUser)
@@ -179,7 +179,7 @@ public class UrbanParksDriver {
 		else if( theUser instanceof VolUser)
 			System.out.println("            Volunteer                   ");
 		
-		System.out.println("------------"+theMenu+"-----------------");
+		System.out.println("------------"+theMenu+"-----------------\n");
 		
 	}
 	
@@ -197,5 +197,25 @@ public class UrbanParksDriver {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(theDate);
 		return cal;
+	}
+	
+	//Error handler from front end
+	public void errorHandle(Exception ex){
+		if(ex instanceof DuplicateJobException)
+			System.out.println(new DuplicateJobException().getMessage());
+		else if( ex instanceof JobFutureException)
+			System.out.println(new JobFutureException().getMessage());
+		else if(ex instanceof JobLengthException)
+			System.out.println(new JobLengthException().getMessage());
+		else if(ex instanceof JobMaxException)
+			System.out.println(new JobMaxException().getMessage());
+		else if(ex instanceof JobPastException)
+			System.out.println(new JobPastException().getMessage());
+		else if(ex instanceof JobsInWeekException)
+			System.out.println(new JobsInWeekException().getMessage());
+	}
+	
+	public AbstractUser getAbstractUser(){
+		return myCurrentUser;
 	}
 }
