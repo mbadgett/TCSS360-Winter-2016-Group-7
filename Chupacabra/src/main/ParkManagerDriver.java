@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 import data.Job;
 import data.Park;
+import exceptions.DuplicateJobException;
+import exceptions.JobFutureException;
+import exceptions.JobLengthException;
+import exceptions.JobMaxException;
+import exceptions.JobPastException;
+import exceptions.JobsInWeekException;
 import users.PMUser;
 import users.VolUser;
 
@@ -17,7 +23,7 @@ public class ParkManagerDriver {
 		UPDriver = urbanParksDriver;
 	}
 
-	public void displayVolInterface(Scanner scan) {
+	public void displayVolInterface(Scanner scan)  {
 		boolean managerContinue = true;
 		while(managerContinue){
 			System.out.println("Welcome Park Manager. What would you like to do?");
@@ -55,7 +61,7 @@ public class ParkManagerDriver {
 	}
 
 
-	private void viewManagedParks(Scanner theScanner) {
+	private void viewManagedParks(Scanner theScanner)  {
 		ArrayList<Park> managedParks = UPDriver.parks.getParksManagedBy((PMUser)UPDriver.myCurrentUser);
 		int i = 1;
 		System.out.println("Parks...");
@@ -112,7 +118,7 @@ public class ParkManagerDriver {
 			int jobSel = Integer.parseInt(input)-1;
 			System.out.println("Options for " + parkJobs.get(jobSel));
 			System.out.println("\n\nVolunteer info...");
-			System.out.print(parkJobs.get(jobSel).displayVolunteerInfo()+"\n\n");			
+			System.out.print(UPDriver.displayVolunteerInfo(parkJobs.get(jobSel))+"\n\n");			
 			System.out.println("1. Delete.");
 			System.out.println("2. Modify.");
 			System.out.println("3. View volunters.");
@@ -141,7 +147,7 @@ public class ParkManagerDriver {
 		}		
 	}	
 
-	private void EditJob(Scanner theScanner, Job theJob, Park thePark) {
+	private void EditJob(Scanner theScanner, Job theJob, Park thePark)  {
 		theScanner.nextLine();
 		System.out.print("Please enter new job description:");
 		String description = theScanner.nextLine();
@@ -157,20 +163,17 @@ public class ParkManagerDriver {
 		int medium = theScanner.nextInt();
 		System.out.print("Please enter the new max for heavy workers:");
 		int heavy = theScanner.nextInt();
-		Job newJob = new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy);
+		Job newJob = new Job(description,UPDriver.dateToCalendar(jobDateStart), UPDriver.dateToCalendar(jobDateEnd), thePark, light, medium,heavy);
 		UPDriver.jobs.getPendingJobs().remove(theJob);//remove first
-		
-		String output = UPDriver.jobs.addJob(newJob);
-		if(output.equals("Job added.")){			
-			System.out.println("Job edited.");
-		}else {
-			System.out.println("\n\n\n"+output);//why could not edit
-			UPDriver.jobs.addJob(theJob);
-		}
+		try{
+		UPDriver.jobs.addJob(newJob);
+		System.out.println("Job edited!");
+		}catch(Exception ex){UPDriver.errorHandle(ex);}
+
 	}
 
 
-	private void SubmitJob(Scanner scan, Park thePark){
+	private void SubmitJob(Scanner scan, Park thePark) {
 		scan.nextLine();
 		System.out.print("Please enter job description:");
 		String description = scan.nextLine();
@@ -186,7 +189,10 @@ public class ParkManagerDriver {
 		int medium = scan.nextInt();
 		System.out.print("Please enter the max for heavy workers:");
 		int heavy = scan.nextInt();
-		System.out.println(UPDriver.jobs.addJob(new Job(description, jobDateStart, jobDateEnd, thePark, light, medium,heavy)));
-
+		try{
+		UPDriver.jobs.addJob(new Job(description, UPDriver.dateToCalendar(jobDateStart), UPDriver.dateToCalendar(jobDateEnd), thePark, light, medium,heavy));
+		System.out.println("Job added!");
+		}catch(Exception ex){UPDriver.errorHandle(ex);}
+		
 	}
 }

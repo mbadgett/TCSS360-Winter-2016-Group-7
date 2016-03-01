@@ -48,7 +48,7 @@ public class UPStaffDriver {
 				if(!"b".equals(input)){
 					System.out.println(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1));
 					System.out.println("\n\nVolunteer info...");
-					System.out.print(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1).displayVolunteerInfo()+"\n\n");
+					System.out.print(UPDriver.displayVolunteerInfo(UPDriver.jobs.getPendingJobs().get(Integer.parseInt(input)-1))+"\n\n");
 				}
 			} else if(userSelection == 3){
 				volunteerContinue = false;

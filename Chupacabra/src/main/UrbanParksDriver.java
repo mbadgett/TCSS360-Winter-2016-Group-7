@@ -1,6 +1,8 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -10,6 +12,12 @@ import data.JobDB;
 import data.Park;
 import data.ParkDB;
 import data.UserDB;
+import exceptions.DuplicateJobException;
+import exceptions.JobFutureException;
+import exceptions.JobLengthException;
+import exceptions.JobMaxException;
+import exceptions.JobPastException;
+import exceptions.JobsInWeekException;
 import users.AbstractUser;
 import users.PMUser;
 import users.UPSUser;
@@ -65,7 +73,7 @@ public class UrbanParksDriver {
 		backupDB();		
 	}
 
-	public void run(){
+	public void run() {
 		boolean programContinue = true;
 		initDB();		
 		Scanner scan = new Scanner(System.in);
@@ -133,7 +141,81 @@ public class UrbanParksDriver {
 		int i = 1;
 		System.out.println("Jobs...");
 		for(Job curJob : jobs.getPendingJobs()){
-			System.out.println(i++ +". "+ curJob.listingToString());
+			System.out.println(i++ +". "+ listingToString(curJob));
 		}	
+	}
+	
+	public String listingToString(Job curJob) {
+		return curJob.getMyPark().getName() + " (" + (curJob.getMyStartDate().get(Calendar.MONTH)+1) + "/" 
+					+ curJob.getMyStartDate().get(Calendar.DATE) + "-" + curJob.getMyEndDate().get(Calendar.DATE)
+					+ "): " + curJob.getMyDescription().substring(0, Math.max(0, Math.min(20, curJob.getMyDescription().length()-4))) + "...";
+	}
+	
+	public String displayOpenings(Job curJob){
+		StringBuilder sb = new StringBuilder();
+		if(curJob.getlMax()>curJob.getlCount())sb.append("1. Light: "+(curJob.getlMax()-curJob.getlCount())+" Spots remaining\n");
+		if(curJob.getmMax()>curJob.getmCount())sb.append("2. Medium: "+(curJob.getmMax()-curJob.getmCount())+" Spots remaining\n");
+		if(curJob.gethMax()>curJob.gethCount())sb.append("3. Heavy: "+(curJob.gethMax()-curJob.gethCount())+" Spots remaining\n");		
+		return sb.toString();
+	}	
+
+	public String displayVolunteerInfo(Job curJob) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Light: "+curJob.getlCount()+"/"+curJob.getlMax()+" Spots filled.\n");
+		sb.append("Medium: "+curJob.getmCount()+"/"+curJob.getmMax()+" Spots filled.\n");
+		sb.append("Heavy: "+curJob.gethCount()+"/"+curJob.gethMax()+" Spots filled.\n");		
+		return sb.toString();
+	}
+	
+	//Pass the abstract user and the menu name to this method to print the header
+	public void displayHeader(AbstractUser theUser, String theMenu){
+		System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("            Urban Park                    ");
+		System.out.println("            "+theUser.getName()+"          ");
+		if(theUser instanceof PMUser)
+			System.out.println("            Park Manager                   ");
+		else if( theUser instanceof UPSUser)
+			System.out.println("            Urban Park Staff                   ");
+		else if( theUser instanceof VolUser)
+			System.out.println("            Volunteer                   ");
+		
+		System.out.println("----------- "+theMenu+" ----------------\n");
+		
+	}
+	
+	//pass the list of menu option as an arrayList to this method to print the menu
+	//Must be put in the array in order. the number for user to choose should be included in the array.
+	public void displayMenu(ArrayList<String> theMenuList){
+		for(int i = 0; i<theMenuList.size();i++) {
+			System.out.println(theMenuList.get(i));
+		}
+		System.out.println("Please enter your choose:");
+	}
+	
+	//change Date object to Calendar object to be consistent with addJob method.
+	public Calendar dateToCalendar(Date theDate){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(theDate);
+		return cal;
+	}
+	
+	//Error handler from front end
+	public void errorHandle(Exception ex){
+		if(ex instanceof DuplicateJobException)
+			System.out.println(new DuplicateJobException().getMessage());
+		else if( ex instanceof JobFutureException)
+			System.out.println(new JobFutureException().getMessage());
+		else if(ex instanceof JobLengthException)
+			System.out.println(new JobLengthException().getMessage());
+		else if(ex instanceof JobMaxException)
+			System.out.println(new JobMaxException().getMessage());
+		else if(ex instanceof JobPastException)
+			System.out.println(new JobPastException().getMessage());
+		else if(ex instanceof JobsInWeekException)
+			System.out.println(new JobsInWeekException().getMessage());
+	}
+	
+	public AbstractUser getAbstractUser(){
+		return myCurrentUser;
 	}
 }
