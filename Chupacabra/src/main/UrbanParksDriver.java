@@ -86,7 +86,7 @@ public class UrbanParksDriver {
 				
 				System.out.print("Please enter your email:");
 				email = scan.nextLine();
-				nextScreen();
+				//nextScreen();
 				if(Objects.isNull(users.getUser(email)))System.out.println("User not found....");
 			}
 			myCurrentUser = users.getUser(email);			
@@ -121,17 +121,17 @@ public class UrbanParksDriver {
 		DataService.backup(jobs, parks, users);
 	}
 	
-	public void nextScreen() {
-		System.out.println();
-		System.out.println();
-		System.out.println("===============================================================================");
-		System.out.println();
-		System.out.println();
-		
-	}
+//	public void nextScreen() {
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("===============================================================================");
+//		System.out.println();
+//		System.out.println();
+//		
+//	}
 	
 	public void quit() {
-		System.out.println("Good Bye.....");
+		System.out.println("\n================================\nGood Bye.....");
 		backupDB();
 		System.exit(0);
 		
@@ -189,7 +189,7 @@ public class UrbanParksDriver {
 		for(int i = 0; i<theMenuList.size();i++) {
 			System.out.println(theMenuList.get(i));
 		}
-		System.out.println("Please enter your choose:");
+		System.out.print("Please enter your choose:");
 	}
 	
 	//change Date object to Calendar object to be consistent with addJob method.
@@ -217,5 +217,34 @@ public class UrbanParksDriver {
 	
 	public AbstractUser getAbstractUser(){
 		return myCurrentUser;
+	}
+	
+	/**
+	 * this method gets an integer value from the console. method will not close until an integer value
+	 * between the given min and max (both inclusive) is entered, or the optional escape sequence is entered.
+	 * 
+	 * @param scan A Scanner used to get console input
+	 * @param min minimum int value option inclusive
+	 * @param max maximum int value option inclusive
+	 * @param message optional error message to display when wrong input received.
+	 * @param returnC optional return character to break the input cycle.
+	 *        optional return has unexpected behavior if min is less than zero.
+	 * @return returns an positive int for any option that the user selects. negative one returned
+	 * 		   when optional character is read in from the console.
+	 */
+	public int userMenuSelection(Scanner scan, int min, int max, String message, String returnC) {
+		int userSelection;
+		String checkRtn;
+		do {
+			if (scan.hasNextInt()) {
+				userSelection = scan.nextInt();
+			} else {
+				checkRtn = scan.next();
+				userSelection = -1;
+				if (checkRtn.equals(returnC)) break;
+				if (message != null && !message.isEmpty())System.out.println(message);
+			}
+		} while (userSelection < min || userSelection > max);
+		return userSelection;
 	}
 }
