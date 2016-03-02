@@ -150,9 +150,13 @@ public class ParkManagerDriver {
 			menu.clear();
 			userSelection = UPDriver.userMenuSelection(theScanner, 1, 4, errMessage, null);			
 			//UPDriver.nextScreen();
-			if(userSelection == 1){				
-				UPDriver.jobs.deleteJob(currentJob);
-				System.out.println("Job deleted.");
+			if(userSelection == 1){	
+				UPDriver.displayHeader(UPDriver.myCurrentUser, "Delete a job");
+				if(currentJob.getMyVolunteers().size()<=0){
+					UPDriver.jobs.deleteJob(currentJob);
+					System.out.println("Job deleted.");
+				} else 	
+					System.out.println("There are volunteer(s) for this job. Job can't be deleted!");
 			} else if(userSelection == 2){
 				UPDriver.displayHeader(UPDriver.myCurrentUser, "Modify a job");	
 				EditJob(theScanner, currentJob, thePark);
@@ -171,10 +175,13 @@ public class ParkManagerDriver {
 	}
 	
 	private void EditJob(Scanner theScanner, Job theJob, Park thePark)  {
-		boolean successfulAdd = SubmitJob(theScanner, thePark, 1);
-		if (successfulAdd) {
-			UPDriver.jobs.getPendingJobs().remove(theJob);//remove the old entry iff the new one succeeds.
-		}
+		if(theJob.getMyVolunteers().size()<=0){
+			boolean successfulAdd = SubmitJob(theScanner, thePark, 1);
+			if (successfulAdd) {
+				UPDriver.jobs.getPendingJobs().remove(theJob);//remove the old entry iff the new one succeeds.
+			}
+		} else
+			System.out.println("There are volunteer(s) for this job. Job can't be edited!");
 	}
 
 
@@ -209,9 +216,9 @@ public class ParkManagerDriver {
 		try{
 			UPDriver.jobs.addJob(new Job(description, UPDriver.dateToCalendar(jobDateStart), UPDriver.dateToCalendar(jobDateEnd), thePark, light, medium,heavy));
 			if(addOrEdit == 0)
-				System.out.println("Job added!");
+				System.out.println("\nJob added!");
 			else if(addOrEdit == 1) 
-				System.out.println("Job edited!");
+				System.out.println("\nJob edited!");
 			
 		}catch(Exception ex) {
 			successfulAdd = false; 
