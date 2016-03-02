@@ -123,9 +123,9 @@ public class Job implements Serializable{
 		StringBuilder sb = new StringBuilder();
 		sb.append(myPark);
 		sb.append('(');
-		sb.append(myStartDate);
+		sb.append(myStartDate.getTime());
 		sb.append('-');
-		sb.append(myEndDate);
+		sb.append(myEndDate.getTime());
 		sb.append("): ");
 		sb.append(myDescription);
 		return sb.toString();
