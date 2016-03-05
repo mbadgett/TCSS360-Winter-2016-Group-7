@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import exceptions.DuplicateJobException;
 import exceptions.JobFutureException;
 import exceptions.JobLengthException;
 import exceptions.JobMaxException;
@@ -121,7 +120,7 @@ public class JobDB implements Serializable {
 	 * @throws JobsInWeekException 
 	 * @throws JobLengthException 
 	 */
-	public void addJob(Job theJob) throws JobMaxException, DuplicateJobException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{			
+	public void addJob(Job theJob) throws JobMaxException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{			
 		checkJobLength(theJob);
 		checkWeekCapacity(theJob);
 		checkInFuture(theJob);

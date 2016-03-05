@@ -12,7 +12,6 @@ import data.JobDB;
 import data.Park;
 import data.ParkDB;
 import data.UserDB;
-import exceptions.DuplicateJobException;
 import exceptions.JobFutureException;
 import exceptions.JobLengthException;
 import exceptions.JobMaxException;
@@ -201,9 +200,7 @@ public class UrbanParksDriver {
 	
 	//Error handler from front end
 	public void errorHandle(Exception ex){
-		if(ex instanceof DuplicateJobException)
-			System.out.println(new DuplicateJobException().getMessage());
-		else if( ex instanceof JobFutureException)
+		if( ex instanceof JobFutureException)
 			System.out.println(new JobFutureException().getMessage());
 		else if(ex instanceof JobLengthException)
 			System.out.println(new JobLengthException().getMessage());
