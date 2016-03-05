@@ -22,7 +22,7 @@ public class JobDB implements Serializable {
 	/**For serialization.*/
 	private static final long serialVersionUID = -2757438807790008719L;
 	/**The actual collection of jobs. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/
-	public ArrayList<Job> myJobs;
+	private ArrayList<Job> myJobs;
 
 
 	/***/
@@ -128,14 +128,14 @@ public class JobDB implements Serializable {
 			checkWeekCapacity(theJob);
 			checkInFuture(theJob);
 			checkRecency(theJob);
-			checkScheduleVacancy(theJob);		
+			checkScheduleVacancy();		
 			myJobs.add(theJob);			
 					
 
 
 		}
 
-		protected void checkScheduleVacancy(Job theJob) throws JobMaxException {
+		protected void checkScheduleVacancy() throws JobMaxException {
 			if(getPendingJobs().size() >= 30) throw new JobMaxException();
 			
 		}
