@@ -23,7 +23,7 @@ public class VolunteerDriver {
 			menuString.add("2. View details of a job.");
 			menuString.add("3. View jobs you signed up for.");
 			menuString.add("4. Quit");
-			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - Main menu");
+			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Main menu");
 			UPDriver.displayMenu(menuString);
 
 			int userSelection = -1;
@@ -39,7 +39,7 @@ public class VolunteerDriver {
 			} else if(userSelection ==2){
 				viewDetailofAJob(input, scan);
 			} else if(userSelection == 3){
-				UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Signed up jobs");
+				UPDriver.displayHeader(UPDriver.getAbstractUser(), "View Signed up jobs");
 				ViewJobsSignedUp(scan);
 			} else if(userSelection == 4){
 				volunteerContinue = false;
@@ -49,7 +49,7 @@ public class VolunteerDriver {
 	}
 	
 	private void viewSummaryofAllJobs(String input, Scanner scan){
-		UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of upcoming jobs");
+		UPDriver.displayHeader(UPDriver.getAbstractUser(), "View Summary of upcoming jobs");
 		UPDriver.ViewSummaryAllUpComingJobs();				
 		do{
 			System.out.print("Enter job number to sign up or b to go back:");
@@ -58,25 +58,25 @@ public class VolunteerDriver {
 
 
 		if(!"b".equals(input)){
-			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - Sign up for job");
+			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Sign up for job");
 			int jobSel = Integer.parseInt(input)-1;
 			System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
 			if(UPDriver.jobs.canVolunteer(UPDriver.jobs.getPendingJobs().get(jobSel), (VolUser) UPDriver.myCurrentUser))
 				SignUpForJob(jobSel, scan);
-			else System.out.println("Cannot volunteer for multiple jobs on the sameday.\n\n");
+			else System.out.println("Cannot volunteer for multiple jobs on the sameday.");
 		}
 	}
 	
 	private void viewDetailofAJob(String input, Scanner scan){
-		UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View Summary of Upcoming jobs");
+		UPDriver.displayHeader(UPDriver.getAbstractUser(), "View Summary of Upcoming jobs");
 		UPDriver.ViewSummaryAllUpComingJobs();				
 		do{
 			System.out.print("Enter job number to view details or b to go back:");
 			input = scan.next();
 		}while(!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < UPDriver.jobs.getPendingJobs().size()+1));
-		UPDriver.nextScreen();
+		//UPDriver.nextScreen();
 		if(!"b".equals(input)){
-			UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View detail of selected upcoming job");
+			UPDriver.displayHeader(UPDriver.getAbstractUser(), "View detail of selected upcoming job");
 			int jobSel = Integer.parseInt(input)-1;
 			System.out.println(UPDriver.jobs.getPendingJobs().get(jobSel).toString());
 			//UPDriver.nextScreen();
@@ -111,7 +111,7 @@ public class VolunteerDriver {
 		} while (!"b".equals(input) && !(input.matches(".*\\d+.*") && Integer.parseInt(input) < volunteeredJobs.size()+1));
 		if(input.matches(".*\\d+.*") && Integer.parseInt(input) < volunteeredJobs.size()+1){
 			do {
-				UPDriver.displayHeader(UPDriver.getAbstractUser(), "Volunteer - View detail of selected upcoming job");
+				UPDriver.displayHeader(UPDriver.getAbstractUser(), "View detail of selected upcoming job");
 				//UPDriver.nextScreen();
 				System.out.println(volunteeredJobs.get(Integer.parseInt(input)-1));
 				System.out.print("Enter b to go back:");

@@ -1,14 +1,10 @@
 package data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import exceptions.DuplicateJobException;
 import exceptions.JobFutureException;
 import exceptions.JobLengthException;
 import exceptions.JobMaxException;
@@ -25,7 +21,7 @@ public class JobDB implements Serializable {
 	/**For serialization.*/
 	private static final long serialVersionUID = -2757438807790008719L;
 	/**The actual collection of jobs. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/
-	public ArrayList<Job> myJobs;
+	private ArrayList<Job> myJobs;
 
 
 	/***/
@@ -34,48 +30,7 @@ public class JobDB implements Serializable {
 	}
 
 
-	/**Add job to the DB USER STORY 1
-	 * @param theJob
-	 * @throws JobMaxException 
-	 * @throws DuplicateJobException 
-	 * @throws JobFutureException 
-	 * @throws JobPastException 
-	 * @throws JobsInWeekException 
-	 * @throws JobLengthException 
-	 */
-	public void addJob(Job theJob) throws JobMaxException, DuplicateJobException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{
-		
-		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0)throw new JobLengthException();
-		else if(jobsInWeek(theJob)>4) throw new JobsInWeekException();
-		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) throw new JobPastException();
-		else if(!within90(theJob)) throw new JobFutureException();
-		else if(getPendingJobs().contains(theJob)) throw new DuplicateJobException();
-		else if(getPendingJobs().size() >= 30) throw new JobMaxException();
-		else myJobs.add(theJob);			
-				
 
-
-	}
-
-	public boolean within90(Job theJob) {
-		boolean result = false;
-
-		long today = Calendar.getInstance().getTimeInMillis();
-		
-		long jobsTime = theJob.getStartDate().getTimeInMillis();
-
-		result = ((jobsTime-today )- 90*TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)) < 0;		
-		return result;
-	}
-
-
-	public int jobsInWeek(Job theJob) {
-		int i = 0;
-		for(Job j : getPendingJobs()){
-			if(Math.abs(j.getStartDate().getTimeInMillis()-theJob.getStartDate().getTimeInMillis()) <= 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
-		}
-		return i;
-	}
 
 
 	/**Delete job from the db USER STORY 2
@@ -154,6 +109,75 @@ public class JobDB implements Serializable {
 					|| theJob.getVolunteers().contains(theVolunteer))result = false;
 		}//Jobs may only last two days 4 possible violations of same day rule, no time so dates = on given days.		
 		return result;
+	}
+
+	/**Add job to the DB USER STORY 1
+	 * @param theJob
+	 * @throws JobMaxException 
+	 * @throws DuplicateJobException 
+	 * @throws JobFutureException 
+	 * @throws JobPastException 
+	 * @throws JobsInWeekException 
+	 * @throws JobLengthException 
+	 */
+	public void addJob(Job theJob) throws JobMaxException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{			
+		checkJobLength(theJob);
+		checkWeekCapacity(theJob);
+		checkInFuture(theJob);
+		checkRecency(theJob);
+		checkScheduleVacancy();		
+		myJobs.add(theJob);
+	}
+
+	protected void checkScheduleVacancy() throws JobMaxException {
+		if(getPendingJobs().size() >= 30) throw new JobMaxException();
+
+	}
+
+
+	protected void checkRecency(Job theJob) throws JobFutureException {
+		if(!within90(theJob)) throw new JobFutureException();
+
+	}
+
+
+	protected void checkInFuture(Job theJob) throws JobPastException {
+		if(theJob.getStartDate().before(Calendar.getInstance())) throw new JobPastException();
+
+	}
+
+
+	protected void checkWeekCapacity(Job theJob) throws JobsInWeekException {
+		if(jobsInWeek(theJob)>4) throw new JobsInWeekException();
+
+	}
+
+
+	protected void checkJobLength(Job theJob) throws JobLengthException {
+		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0) throw new JobLengthException();
+
+	}
+
+
+	protected boolean within90(Job theJob) {
+		boolean result = false;
+		long today = Calendar.getInstance().getTimeInMillis();		
+		long jobsTime = theJob.getStartDate().getTimeInMillis();
+		result = ((jobsTime-today )- 90*TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)) < 0;		
+		return result;
+	}
+
+
+	protected int jobsInWeek(Job theJob) {
+		int i = 0;
+		for(Job j : getPendingJobs()){
+			if(Math.abs(j.getStartDate().getTimeInMillis()-theJob.getStartDate().getTimeInMillis()) <= 3*(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)))i++;
+		}
+		return i;
+	}
+
+	protected void addTestJob(Job theJob) {
+		myJobs.add(theJob);
 	}
 
 }
