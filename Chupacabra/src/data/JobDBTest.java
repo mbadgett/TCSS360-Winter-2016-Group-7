@@ -1,9 +1,8 @@
 package data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +11,8 @@ import exceptions.JobFutureException;
 import exceptions.JobLengthException;
 import exceptions.JobMaxException;
 import exceptions.JobPastException;
+import exceptions.JobsInWeekException;
 import users.PMUser;
-import users.VolUser;
 
 
 public class JobDBTest {
@@ -173,6 +172,69 @@ public class JobDBTest {
 		jobToday.getEndDate().set(2016, 4, 3);
 		testDB.checkJobLength(jobToday);
 	}
+
+
+
+	//checkWeekCapacity tests.
+	
+	private void populateNJobsInTestDB(int n, Job theJob) {
+		for(int i = -2; i < n-2; i ++){
+			Job temp = new Job("test job" + 1, theJob.getMyStartDate(), theJob.getMyEndDate(), testPark, i ,i ,i);
+			temp.getStartDate().add(Calendar.DATE, i);
+			temp.getEndDate().add(Calendar.DATE, i);
+			testDB.addTestJob(temp);
+		}
+		
+	}
+
+
+	@Test public void testCheckWeekCapacityEmptyWeek() throws JobsInWeekException {
+		populateNJobsInTestDB(0, jobToday);
+		testDB.checkWeekCapacity(jobToday);		
+	}
+
+	
+
+
+	@Test public void testCheckWeekCapacity4Jobs() throws JobsInWeekException {
+		populateNJobsInTestDB(4, jobToday);
+		testDB.checkWeekCapacity(jobToday);		
+	}
+
+	@Test(expected = JobsInWeekException.class) public void testCheckWeekCapacity5Jobs() throws JobsInWeekException {
+		populateNJobsInTestDB(5, jobToday);
+		testDB.checkWeekCapacity(jobToday);		
+	}
+	
+	
+	//jobsInWeek tests
+	
+	@Test public void testJobsInWeek0Jobs() {
+		populateNJobsInTestDB(0, jobToday);
+			
+		assertTrue(testDB.jobsInWeek(jobToday)== 0);
+	}
+	
+	@Test public void testJobsInWeek1Job() {
+		populateNJobsInTestDB(1, jobToday);
+		
+		assertTrue(testDB.jobsInWeek(jobToday) == 1);
+	}
+	@Test public void testJobsInWeek4Job() {
+		populateNJobsInTestDB(4, jobToday);
+		
+		assertTrue(testDB.jobsInWeek(jobToday) == 4);
+	}
+	
+	@Test public void testJobsInWeek5Jobs() {
+		populateNJobsInTestDB(5, jobToday);
+		
+		assertTrue(testDB.jobsInWeek(jobToday) == 5);
+	}
+	
+	
+	
+	
 
 	/*
 	 * Ensures that jobs are added correctly.
