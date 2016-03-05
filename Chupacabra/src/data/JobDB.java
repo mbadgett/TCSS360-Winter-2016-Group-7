@@ -148,7 +148,7 @@ public class JobDB implements Serializable {
 
 
 		protected void checkInFuture(Job theJob) throws JobPastException {
-			if(theJob.getStartDate().before(Calendar.getInstance().getTime())) throw new JobPastException();
+			if(theJob.getStartDate().before(Calendar.getInstance())) throw new JobPastException();
 			
 		}
 
