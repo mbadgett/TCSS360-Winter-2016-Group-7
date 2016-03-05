@@ -1,4 +1,4 @@
-package data.junit;
+package data;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,6 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import data.Job;
-import data.JobDB;
-import data.Park;
 import users.PMUser;
 import users.VolUser;
 
