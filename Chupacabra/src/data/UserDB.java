@@ -8,8 +8,10 @@ import users.AbstractUser;
 import users.VolUser;
 
 /**Houses all the users and the needed functionality.
- * @author yattha
- *
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public class UserDB implements Serializable{
 	/**For serialization.*/

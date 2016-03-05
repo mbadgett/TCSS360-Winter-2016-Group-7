@@ -8,7 +8,10 @@ import java.util.concurrent.TimeUnit;
 import users.VolUser;
 
 /** Job will contain references to it's park and the volunteers for the job as well as its info.
- * @author yattha
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  *
  */
 public class Job implements Serializable{

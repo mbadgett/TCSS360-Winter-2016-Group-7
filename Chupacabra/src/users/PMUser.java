@@ -1,5 +1,12 @@
 package users;
 
+/** Class to represent the Park Manager.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ *
+ */
 public class PMUser extends AbstractUser {
 
 	private static final long serialVersionUID = 564005197077434081L;
