@@ -14,7 +14,12 @@ import exceptions.JobPastException;
 import exceptions.JobsInWeekException;
 import users.PMUser;
 
-
+/* Tests the JobDB class.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ */
 public class JobDBTest {
 	JobDB testDB, DB30Jobs;
 	PMUser testPMUser;

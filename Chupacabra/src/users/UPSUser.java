@@ -1,5 +1,13 @@
 package users;
 
+
+/** User class to represent the Urban Parks Staff employee. Has the fewest features.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ *
+ */
 public class UPSUser extends AbstractUser {
 
 

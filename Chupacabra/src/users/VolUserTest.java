@@ -5,6 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/* Tests the VolUser class.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ */
 public class VolUserTest {
 
 	@Before

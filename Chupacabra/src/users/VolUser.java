@@ -5,7 +5,14 @@ import java.util.Collection;
 
 import data.Job;
 
-
+/** Specifies the Volunteer User, a specific kind of Urban Parks client.
+ * Has several features catered to them specifically, but has the lowest level of information access.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ *
+ */
 public class VolUser extends AbstractUser {
 
 	private static final long serialVersionUID = -2092614664954521778L;

@@ -14,8 +14,10 @@ import users.PMUser;
 import users.VolUser;
 
 /**Houses a collection of all the jobs and needed functionality.
- * @author yattha
- *
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public class JobDB implements Serializable {
 	/**For serialization.*/

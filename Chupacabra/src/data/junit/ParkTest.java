@@ -8,6 +8,12 @@ import org.junit.Test;
 import data.Park;
 import users.PMUser;
 
+/* Tests the Park class.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ */
 public class ParkTest {
 
 	@Before

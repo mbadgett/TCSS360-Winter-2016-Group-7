@@ -9,8 +9,10 @@ import users.PMUser;
 
 
 /**Houses a collection of all the parks and needed functionality.
-* @author yattha
-*
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
 */
 public class ParkDB implements Serializable{
 	/**For serialization.*/

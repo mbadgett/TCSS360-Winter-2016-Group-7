@@ -8,6 +8,13 @@ import org.junit.Test;
 import data.UserDB;
 import users.VolUser;
 
+
+/* Tests the UserDB class.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ */
 public class UserDBTest {
 	UserDB testDB;
 	VolUser testUser;

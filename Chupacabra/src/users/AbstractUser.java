@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 
 
-/**Abstract useer houses common functionality.
- * @author yattha
- *
+/**Abstract user houses common functionality.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public abstract class AbstractUser implements Serializable{
 	private static final long serialVersionUID = 2369082327791998209L;
