@@ -1,11 +1,8 @@
 package data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import exceptions.DuplicateJobException;
@@ -45,25 +42,52 @@ public class JobDB implements Serializable {
 	 */
 	public void addJob(Job theJob) throws JobMaxException, DuplicateJobException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException{
 		
-		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0)throw new JobLengthException();
-		else if(jobsInWeek(theJob)>4) throw new JobsInWeekException();
-		else if(theJob.getStartDate().before(Calendar.getInstance().getTime())) throw new JobPastException();
-		else if(!within90(theJob)) throw new JobFutureException();
-		else if(getPendingJobs().contains(theJob)) throw new DuplicateJobException();
-		else if(getPendingJobs().size() >= 30) throw new JobMaxException();
-		else myJobs.add(theJob);			
+		
+		checkJobLength(theJob);
+		checkWeekCapacity(theJob);
+		checkInFuture(theJob);
+		checkRecency(theJob);
+		checkScheduleVacancy(theJob);		
+		myJobs.add(theJob);			
 				
 
 
 	}
 
+	private void checkScheduleVacancy(Job theJob) throws JobMaxException {
+		if(getPendingJobs().size() >= 30) throw new JobMaxException();
+		
+	}
+
+
+	private void checkRecency(Job theJob) throws JobFutureException {
+		if(!within90(theJob)) throw new JobFutureException();
+		
+	}
+
+
+	private void checkInFuture(Job theJob) throws JobPastException {
+		if(theJob.getStartDate().before(Calendar.getInstance().getTime())) throw new JobPastException();
+		
+	}
+
+
+	private void checkWeekCapacity(Job theJob) throws JobsInWeekException {
+		if(jobsInWeek(theJob)>4) throw new JobsInWeekException();
+		
+	}
+
+
+	private void checkJobLength(Job theJob) throws JobLengthException {
+		if(theJob.getJobLength()>1 || theJob.getJobLength() < 0) throw new JobLengthException();
+		
+	}
+
+
 	public boolean within90(Job theJob) {
 		boolean result = false;
-
-		long today = Calendar.getInstance().getTimeInMillis();
-		
+		long today = Calendar.getInstance().getTimeInMillis();		
 		long jobsTime = theJob.getStartDate().getTimeInMillis();
-
 		result = ((jobsTime-today )- 90*TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)) < 0;		
 		return result;
 	}
