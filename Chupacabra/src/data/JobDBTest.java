@@ -2,6 +2,7 @@ package data;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class JobDBTest {
 	PMUser testPMUser;
 	Park testPark;
 	VolUser testVol;
-	Job testJob, jobNextYear, jobInPast, jobToday, job91DaysAway, job90DaysAway;
+	Job testJob, jobNextYear, jobInPast, jobToday, job91DaysAway, job90DaysAway, jobNextWeek;
 
 	/*
 	 * Initializes basic objects that will be used in all tests.
@@ -50,6 +51,7 @@ public class JobDBTest {
 	}
 
 
+	
 	private void generateTestDBs() {		
 		populate30JobsDB();
 
@@ -85,6 +87,11 @@ public class JobDBTest {
 
 		jobToday = new Job("Job today", Calendar.getInstance(), Calendar.getInstance(), testPark, 1,1,1);
 		jobToday.getEndDate().add(Calendar.DATE, 1);//make job two days long
+		
+		
+		jobNextWeek = new Job("Job today", Calendar.getInstance(), Calendar.getInstance(), testPark, 1,1,1);
+		jobNextWeek.getStartDate().add(Calendar.DATE, 7);//make job two days long
+		jobNextWeek.getEndDate().add(Calendar.DATE, 8);//make job two days long
 
 		job91DaysAway  = new Job("Job in the past", Calendar.getInstance(), Calendar.getInstance(), testPark, 1,1,1);
 		job91DaysAway.getStartDate().add(Calendar.DATE, 91);
@@ -145,8 +152,8 @@ public class JobDBTest {
 		DB30Jobs.checkScheduleVacancy();		
 	}
 
-	@Test public void testScheduleVacancySingleVacancy() throws JobMaxException {
-		DB30Jobs.getPendingJobs().remove(0);
+	@Test public void testScheduleVacancySingleVacancy() throws JobMaxException {		
+		DB30Jobs.deleteJob(DB30Jobs.getPendingJobs().get(0));
 		DB30Jobs.checkScheduleVacancy();
 	}
 
@@ -189,9 +196,7 @@ public class JobDBTest {
 		for(int i = -2; i < n-2; i ++){
 			Job temp = new Job("test job" + (i+2), (Calendar)theJob.getMyStartDate().clone(), (Calendar)theJob.getMyEndDate().clone(), testPark, 5 ,5 ,5);
 			temp.getStartDate().add(Calendar.DATE, i);
-			temp.getEndDate().add(Calendar.DATE, i);
-			
-			//System.out.println(temp + "my test");
+			temp.getEndDate().add(Calendar.DATE, i);			
 			testDB.addTestJob(temp);
 		}
 
@@ -206,48 +211,46 @@ public class JobDBTest {
 
 
 	@Test public void testCheckWeekCapacityEmptyWeek() throws JobsInWeekException {
-		populateNJobsInTestDBSingleWeek(0, jobToday);
-		testDB.checkWeekCapacity(jobToday);		
+		populateNJobsInTestDBSingleWeek(0, jobNextWeek);
+		testDB.checkWeekCapacity(jobNextWeek);		
 	}
 
 
 
 
 	@Test public void testCheckWeekCapacity4Jobs() throws JobsInWeekException {
-		populateNJobsInTestDBSingleWeek(4, jobToday);
-		
-		testDB.checkWeekCapacity(jobToday);		
+		populateNJobsInTestDBSingleWeek(4, jobNextWeek);
+
+		testDB.checkWeekCapacity(jobNextWeek);		
 	}
 
 	@Test(expected = JobsInWeekException.class) public void testCheckWeekCapacity5Jobs() throws JobsInWeekException {
-		populateNJobsInTestDBSingleWeek(5, jobToday);
-		testDB.checkWeekCapacity(jobToday);		
+		populateNJobsInTestDBSingleWeek(5, jobNextWeek);
+		testDB.checkWeekCapacity(jobNextWeek);		
 	}
 
 
 	//jobsInWeek tests
 
 	@Test public void testJobsInWeek0Jobs() {
-		populateNJobsInTestDBSingleWeek(0, jobToday);
-
-		assertTrue(testDB.jobsInWeek(jobToday)== 0);
+		populateNJobsInTestDBSingleWeek(0, jobNextWeek);
+		System.out.println(testDB.getPendingJobs().size());
+		assertTrue(testDB.jobsInWeek(jobNextWeek)== 0);
 	}
 
 	@Test public void testJobsInWeek1Job() {
-		populateNJobsInTestDBSingleWeek(1, jobToday);
-
-		assertTrue(testDB.jobsInWeek(jobToday) == 1);
+		populateNJobsInTestDBSingleWeek(1, jobNextWeek);
+		System.out.println(testDB.getPendingJobs().size());
+		assertTrue(testDB.jobsInWeek(jobNextWeek) == 1);
 	}
 	@Test public void testJobsInWeek4Job() {
-		populateNJobsInTestDBSingleWeek(4, jobToday);
-
-		assertTrue(testDB.jobsInWeek(jobToday) == 4);
+		populateNJobsInTestDBSingleWeek(4, jobNextWeek);
+		assertTrue(testDB.jobsInWeek(jobNextWeek) == 4);
 	}
 
 	@Test public void testJobsInWeek5Jobs() {
-		populateNJobsInTestDBSingleWeek(5, jobToday);
-
-		assertTrue(testDB.jobsInWeek(jobToday) == 5);
+		populateNJobsInTestDBSingleWeek(5, jobNextWeek);
+		assertTrue(testDB.jobsInWeek(jobNextWeek) == 5);
 	}
 
 
@@ -256,15 +259,15 @@ public class JobDBTest {
 	@Test public void testCanVolunteerVolunteer0jobs() {		
 		assertTrue(DB30Jobs.canVolunteer(DB30Jobs.getPendingJobs().get(0), testVol));
 	}
-	
+
 	@Test public void testCanVolunteerVolunteerWithjobsNotOnSameDay() {
 		DB30Jobs.getPendingJobs().get(6).addVolunteer(testVol, 1);
 		DB30Jobs.getPendingJobs().get(9).addVolunteer(testVol, 1);
 		DB30Jobs.getPendingJobs().get(11).addVolunteer(testVol, 1);
-		
+
 		assertTrue(DB30Jobs.canVolunteer(DB30Jobs.getPendingJobs().get(0), testVol));
 	}
-	
+
 	@Test public void testCanVolunteerVolunteerAlreadyVolunteered() {
 		populateNJobsInTestDBSingleDay(1, jobToday);
 		testDB.getPendingJobs().get(0).addVolunteer(testVol, 1);
@@ -275,31 +278,31 @@ public class JobDBTest {
 	@Test public void testCanVolunteerVolunteerWithJobOnSameDay() {
 		populateNJobsInTestDBSingleDay(2, jobToday);
 		testDB.getPendingJobs().get(0).addVolunteer(testVol, 1);
-		
-		
+
+
 		System.out.println(testDB.canVolunteer(testDB.getPendingJobs().get(1), testVol));
 		assertTrue(!testDB.canVolunteer(testDB.getPendingJobs().get(1), testVol));
 	}
 
 
-//	@Test public void testCanVolunteer() {
-//
-//	}
-//
-//
-//	@Test public void testCanVolunteer() {
-//
-//	}
+	//	@Test public void testCanVolunteer() {
+	//
+	//	}
+	//
+	//
+	//	@Test public void testCanVolunteer() {
+	//
+	//	}
 
 
-	
+
 	//JobsOnSameDay tests.
-	
+
 	@Test public void testJobsOnSameDayJobsStartSame() {
 		populateNJobsInTestDBSingleDay(2, jobToday);
 		assertTrue(testDB.jobsOnSameDay(testDB.getPendingJobs().get(0), testDB.getPendingJobs().get(1)));
 	}
-	
+
 	@Test public void testJobsOnSameDayJobsEndSame() {
 		populateNJobsInTestDBSingleDay(2, jobToday);
 		testDB.getPendingJobs().get(0).getStartDate().add(Calendar.DATE, 1);
@@ -311,15 +314,69 @@ public class JobDBTest {
 		testDB.getPendingJobs().get(1).getEndDate().add(Calendar.DATE, 1);
 		assertTrue(testDB.jobsOnSameDay(testDB.getPendingJobs().get(0), testDB.getPendingJobs().get(1)));
 	}
-	
 
-	
+
+
 	@Test public void testJobsOnSameDayDifferentDays() {
 		populateNJobsInTestDBSingleDay(2, jobToday);		
 		testDB.getPendingJobs().get(1).getStartDate().add(Calendar.DATE, 2);
 		testDB.getPendingJobs().get(1).getEndDate().add(Calendar.DATE, 2);		
 		assertTrue(!testDB.jobsOnSameDay(testDB.getPendingJobs().get(0), testDB.getPendingJobs().get(1)));
 	}
+
+
+
+	//addJob methods, all of the failures are associated with the above methods, they will not be re-tested here.
+	//That would be redundant, though valid jobs being added will be tested here.
+
+	@Test public void testAddJobEmptyDB() throws JobMaxException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException {
+		testDB.addJob(jobToday);
+		assertTrue(jobToday.equals(testDB.getPendingJobs().get(0)));
+	}
+
+	@Test public void testAddJobNearlyFullDB() throws JobMaxException, JobFutureException, JobPastException, JobsInWeekException, JobLengthException {
+		DB30Jobs.deleteJob(DB30Jobs.getPendingJobs().get(0));//jobtoday removed
+		DB30Jobs.addJob(jobToday);
+		assertTrue(jobToday.equals(DB30Jobs.getPendingJobs().get(29)));//jobToday added to end
+		
+	}
+
+
+	//getPendingJobs tests.
+
+	@Test public void testGetPendingJobs1JobInPast4InFuture() {
+		
+		populateNJobsInTestDBSingleWeek(5, jobToday);		
+		assertTrue(testDB.getPendingJobs().size() == 4 && allPending(testDB.getPendingJobs()));
+	}
+	
+	private boolean allPending(ArrayList<Job> pendingJobs) {
+		boolean result = true;
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.MINUTE, -1);//adjustment for jobs created instantly
+		for(Job j : pendingJobs) {
+			if(!j.getEndDate().after(today)) result = false;
+		}
+		return result;
+	}
+
+
+
+	@Test public void testGetPendingJobs30JobsInFuture() {			
+		assertTrue(DB30Jobs.getPendingJobs().size() == 30 && allPending(testDB.getPendingJobs()));
+	}
+	
+	@Test public void testGetPendingJobsOnlyPastJobs() {
+		assertTrue(testDB.getPendingJobs().size() == 0);
+	}
+
+//	@Test public void testGetPendingJobs() {
+//
+//	}
+//
+//	@Test public void testGetPendingJobs() {
+//
+//	}
 
 
 	/*

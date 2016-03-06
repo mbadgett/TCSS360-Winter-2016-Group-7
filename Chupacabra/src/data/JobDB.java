@@ -47,11 +47,13 @@ public class JobDB implements Serializable {
 	 * @return
 	 */
 	public ArrayList<Job> getPendingJobs(){
-		ArrayList<Job> pendingJobs = new ArrayList<Job>();
-		for(Job j:myJobs){
-			if(j.getEndDate().after(Calendar.getInstance().getTime()) && within90(j))pendingJobs.add(j);
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.HOUR, -1);//adjustment for jobs created instantly
+		ArrayList<Job> pendingJobs = new ArrayList<Job>();		
+		for(Job j : myJobs){
+			if(j.getEndDate().after(today) && within90(j))pendingJobs.add(j);
 		}		
-		return myJobs;
+		return pendingJobs;
 	}
 
 
@@ -156,7 +158,9 @@ public class JobDB implements Serializable {
 
 
 	protected void checkInFuture(Job theJob) throws JobPastException {
-		if(theJob.getStartDate().before(Calendar.getInstance())) throw new JobPastException();
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.MINUTE, -1);//adjustment for jobs created instantly
+		if(theJob.getStartDate().before(today)) throw new JobPastException();
 
 	}
 
