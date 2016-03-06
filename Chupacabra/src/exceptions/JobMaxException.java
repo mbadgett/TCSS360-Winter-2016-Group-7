@@ -1,5 +1,11 @@
 package exceptions;
 
+/* Exception for the maximum number of jobs being reached in the database.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+*/
 public class JobMaxException extends Exception{
 
 	

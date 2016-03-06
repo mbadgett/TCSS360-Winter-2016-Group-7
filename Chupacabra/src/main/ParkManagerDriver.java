@@ -6,20 +6,20 @@ import java.util.Scanner;
 
 import data.Job;
 import data.Park;
-//import exceptions.DuplicateJobException;
-//import exceptions.JobFutureException;
-//import exceptions.JobLengthException;
-//import exceptions.JobMaxException;
-//import exceptions.JobPastException;
-//import exceptions.JobsInWeekException;
 import users.PMUser;
 import users.VolUser;
 
+/** Console display class for the Urban Park Manager position. 
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+*/
 public class ParkManagerDriver {
 
 	private UrbanParksDriver UPDriver;
 	
-	private static String errMessage = "Oops that is not one of the current menu options.";
+	private static String errMessage = "Sorry, that functionality is not available.";
 
 	public ParkManagerDriver(UrbanParksDriver urbanParksDriver) {
 		UPDriver = urbanParksDriver;
@@ -28,9 +28,9 @@ public class ParkManagerDriver {
 	public void displayVolInterface(Scanner scan)  {
 		boolean managerContinue = true;
 		ArrayList<String> menu = new ArrayList<String>();
-		menu.add("Welcome Park Manager. What would you like to do?");
+		menu.add("Welcome, Park Manager. What would you like to do?");
 		menu.add("1. Manage jobs in one of your parks");
-		menu.add("2. View summary of all upcoming jobs at parks that I manage.");
+		menu.add("2. View summary of all upcoming jobs at parks that you manage.");
 		menu.add("3. Quit.");			
 		while(managerContinue){
 			UPDriver.displayHeader(UPDriver.myCurrentUser, "Main Menu");
@@ -41,7 +41,7 @@ public class ParkManagerDriver {
 			if(userSelection == 1){
 				viewManagedParks(scan);
 			} else if(userSelection == 2){
-				UPDriver.displayHeader(UPDriver.myCurrentUser, "View Summary of all upcomming jobs in parks");
+				UPDriver.displayHeader(UPDriver.myCurrentUser, "View a summary of all upcoming jobs in parks");
 				for(Job j:UPDriver.jobs.getParkManagerJobs((PMUser)UPDriver.myCurrentUser)) {
 					System.out.println(UPDriver.listingToString(j));
 				}
@@ -69,7 +69,7 @@ public class ParkManagerDriver {
 				System.out.println(i++ + ". " + p);
 			}
 	
-			String parkMessage = "Select park for more options or b to go back:";
+			String parkMessage = "Select park for more options, or b to go back:";
 			System.out.print(parkMessage);
 			
 			parkSelection = UPDriver.userMenuSelection(scan, 1, managedParks.size(), parkMessage, "b");
@@ -99,7 +99,7 @@ public class ParkManagerDriver {
 			
 	
 			if(userSelection == 1){	
-				UPDriver.displayHeader(UPDriver.myCurrentUser, "Create Job");	
+				UPDriver.displayHeader(UPDriver.myCurrentUser, "Create job");	
 				SubmitJob(scan, thePark, 0);
 			} else if(userSelection == 2){
 				viewParkJobs(scan, thePark);
@@ -122,7 +122,7 @@ public class ParkManagerDriver {
 			for(Job  j: parkJobs){
 				System.out.println(i++ +". "+j);
 			}		
-			String jobSelectMsg = "Select job for more options or b to go back:";
+			String jobSelectMsg = "Select job for more options, or b to go back:";
 			System.out.print(jobSelectMsg);
 			jobSel = UPDriver.userMenuSelection(theScanner, 1, parkJobs.size(), jobSelectMsg, "b");
 			//UPDriver.nextScreen();
@@ -145,7 +145,7 @@ public class ParkManagerDriver {
 			menu.add("2. Modify.");
 			menu.add("3. View volunters.");
 			menu.add("4. Go back...");
-			UPDriver.displayHeader(UPDriver.myCurrentUser, "Detail of Job at "+thePark+" park");	
+			UPDriver.displayHeader(UPDriver.myCurrentUser, "Detail of job at "+thePark+" park");	
 			UPDriver.displayMenu(menu);
 			menu.clear();
 			userSelection = UPDriver.userMenuSelection(theScanner, 1, 4, errMessage, null);			
@@ -161,7 +161,7 @@ public class ParkManagerDriver {
 				UPDriver.displayHeader(UPDriver.myCurrentUser, "Modify a job");	
 				EditJob(theScanner, currentJob, thePark);
 			} else if (userSelection == 3){
-				UPDriver.displayHeader(UPDriver.myCurrentUser, "View volunteer of a job");	
+				UPDriver.displayHeader(UPDriver.myCurrentUser, "View a list of volunteers for a job");	
 				for(VolUser v: currentJob.getVolunteers()){
 					System.out.println(v);
 				}
@@ -188,12 +188,12 @@ public class ParkManagerDriver {
 	private boolean SubmitJob(Scanner scan, Park thePark, int addOrEdit) {
 		boolean successfulAdd = true;
 		scan.nextLine();
-		System.out.print("Please enter job description:");
+		System.out.print("Please enter a job description:");
 		String description = scan.nextLine();
-		System.out.print("Please enter the date the job will Start (mm/dd/yyyy):");
+		System.out.print("Please enter the date the job will start (mm/dd/yyyy):");
 		@SuppressWarnings("deprecation")
 		Date jobDateStart = new Date(scan.nextLine());
-		System.out.print("Please enter the date the job will End (mm/dd/yyyy):");
+		System.out.print("Please enter the date the job will end (mm/dd/yyyy):");
 		@SuppressWarnings("deprecation")
 		Date jobDateEnd = new Date(scan.nextLine());
 		System.out.print("Please enter the max number of light duty volunteer slots:");

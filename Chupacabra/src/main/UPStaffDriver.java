@@ -6,6 +6,12 @@ import java.util.Scanner;
 import data.Job;
 import users.VolUser;
 
+/**Console display class for the Urban Park Staff position.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+*/
 public class UPStaffDriver {
 	
 	private UrbanParksDriver UPDriver;

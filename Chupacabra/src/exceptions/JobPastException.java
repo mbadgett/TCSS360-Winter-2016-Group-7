@@ -1,5 +1,11 @@
 package exceptions;
 
+/* Exception for an expired job being added to the database.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+*/
 public class JobPastException extends Exception{
 
 	

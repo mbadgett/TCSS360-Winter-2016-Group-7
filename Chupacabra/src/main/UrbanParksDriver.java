@@ -22,6 +22,12 @@ import users.PMUser;
 import users.UPSUser;
 import users.VolUser;
 
+/**Basic console display class that all positions draw from.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+*/
 public class UrbanParksDriver {
 	JobDB jobs;
 	ParkDB parks;
@@ -79,14 +85,14 @@ public class UrbanParksDriver {
 		
 		while(programContinue){
 			String email ="";
-			System.out.println("Welcome to Urban Park.");
+			System.out.println("Welcome to Urban Parks!");
 			
 			while(Objects.isNull(users.getUser(email))){
 				
 				System.out.print("Please enter your email:");
 				email = scan.nextLine();
 				//nextScreen();
-				if(Objects.isNull(users.getUser(email)))System.out.println("User not found....");
+				if(Objects.isNull(users.getUser(email)))System.out.println("User not found.");
 			}
 			myCurrentUser = users.getUser(email);			
 
@@ -103,7 +109,7 @@ public class UrbanParksDriver {
 			 
 		}
 		scan.close();
-		System.out.println("Thank you for using the program! Good bye.");
+		System.out.println("Good bye.");
 		System.exit(0);
 	}
 	
@@ -160,16 +166,16 @@ public class UrbanParksDriver {
 
 	public String displayVolunteerInfo(Job curJob) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Light: "+curJob.getlCount()+"/"+curJob.getlMax()+" Spots filled.\n");
-		sb.append("Medium: "+curJob.getmCount()+"/"+curJob.getmMax()+" Spots filled.\n");
-		sb.append("Heavy: "+curJob.gethCount()+"/"+curJob.gethMax()+" Spots filled.\n");		
+		sb.append("Light: "+curJob.getlCount()+"/"+curJob.getlMax()+" spots filled.\n");
+		sb.append("Medium: "+curJob.getmCount()+"/"+curJob.getmMax()+" spots filled.\n");
+		sb.append("Heavy: "+curJob.gethCount()+"/"+curJob.gethMax()+" spots filled.\n");		
 		return sb.toString();
 	}
 	
 	//Pass the abstract user and the menu name to this method to print the header
 	public void displayHeader(AbstractUser theUser, String theMenu){
 		System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("            Urban Park                    ");
+		System.out.println("            Urban Parks                   ");
 		System.out.println("            "+theUser.getName()+"          ");
 		if(theUser instanceof PMUser)
 			System.out.println("            Park Manager                   ");
@@ -188,7 +194,7 @@ public class UrbanParksDriver {
 		for(int i = 0; i<theMenuList.size();i++) {
 			System.out.println(theMenuList.get(i));
 		}
-		System.out.print("Please enter your choose:");
+		System.out.print("Please enter your choice:");
 	}
 	
 	//change Date object to Calendar object to be consistent with addJob method.
