@@ -8,8 +8,10 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**Handles persistent data.
- * @author yattha
- *
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public final class DataService {
 	/**Default file name for the backup file.	 */

@@ -3,13 +3,19 @@ package data.junit;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import data.Park;
 import data.ParkDB;
 import users.PMUser;
 
+/* Tests the ParkDB class.
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
+ *
+ */
 public class ParkDBTest {
 
 	/*

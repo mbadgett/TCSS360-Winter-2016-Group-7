@@ -5,8 +5,7 @@ package data.junit;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +15,11 @@ import data.Park;
 import users.PMUser;
 import users.VolUser;
 
-/**
- * @author Gehennom
+/* Tests the Job class.
+ * @author Ian Cresse
+ * @author Derek Moore
+ * @author Son Vu
+ * @author Michael Badgett
  *
  */
 public class JobTest {
@@ -34,7 +36,7 @@ public class JobTest {
 		testUser = new VolUser("last", "first", "email@email.com");
 		testPM = new PMUser("last", "first", "email@email@email.com");
 		testPark = new Park("name", "address", testPM);
-		testJob = new Job("Description", new Date(), new Date(), testPark, 1, 1, 1);
+		testJob = new Job("Description", Calendar.getInstance(), Calendar.getInstance(), testPark, 1, 1, 1);
 		
 	}
 
@@ -67,11 +69,11 @@ public class JobTest {
 		assertTrue(testJob.equals(testJob));
 		
 		//inequality
-		Job testJob2 = new Job("not the same", new Date(), new Date(), testPark, 5, 3, 3);
+		Job testJob2 = new Job("Inequality", Calendar.getInstance(), Calendar.getInstance(), testPark, 5, 3, 3);
 		assertFalse(testJob.equals(testJob2));
 		
 		//symmetry
-		Job testJob3 = new Job("Description", new Date(), new Date(), testPark, 5, 3, 1);
+		Job testJob3 = new Job("Description", Calendar.getInstance(), Calendar.getInstance(), testPark, 5, 3, 1);
 		testJob3.getStartDate().setTime(testJob.getStartDate().getTime());
 		testJob3.getEndDate().setTime(testJob.getEndDate().getTime());
 		assertTrue(testJob.equals(testJob3));
@@ -84,8 +86,6 @@ public class JobTest {
 	 */
 	@Test
 	public void testHasAvailableSpot() {
-		VolUser testUser2 = new VolUser("last", "first", "email@email.com");
-		VolUser testUser3 = new VolUser("last", "first", "email@email.com");
 		
 		//test a job with intensity 1 available
 		assertTrue(testJob.hasAvailableSpot(1));
@@ -96,7 +96,7 @@ public class JobTest {
 		assertFalse(testJob.hasAvailableSpot(9999));
 		
 		//test a job with each intensity not available
-		Job testJob2 = new Job("not the same", new Date(), new Date(), testPark, 0, 0, 0);
+		Job testJob2 = new Job("not the same", Calendar.getInstance(), Calendar.getInstance(), testPark, 0, 0, 0);
 		assertFalse(testJob2.hasAvailableSpot(1));
 		assertFalse(testJob2.hasAvailableSpot(2));
 		assertFalse(testJob2.hasAvailableSpot(3));

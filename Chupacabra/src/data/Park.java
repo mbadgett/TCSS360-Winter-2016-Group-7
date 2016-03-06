@@ -4,8 +4,10 @@ import java.io.Serializable;
 import users.PMUser;
 
 /**Park will only contain manager and info.
- * @author yattha
- *
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public class Park implements Serializable{
 	/**For serialization.*/

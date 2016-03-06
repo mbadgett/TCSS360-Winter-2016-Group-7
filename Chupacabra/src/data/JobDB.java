@@ -14,8 +14,10 @@ import users.PMUser;
 import users.VolUser;
 
 /**Houses a collection of all the jobs and needed functionality.
- * @author yattha
- *
+ * @author Derek Moore
+ * @author Ian Cresse
+ * @author Son Vu
+ * @author Michael Badgett
  */
 public class JobDB implements Serializable {
 	/**For serialization.*/
@@ -45,11 +47,13 @@ public class JobDB implements Serializable {
 	 * @return
 	 */
 	public ArrayList<Job> getPendingJobs(){
-		ArrayList<Job> pendingJobs = new ArrayList<Job>();
-		for(Job j:myJobs){
-			if(j.getEndDate().after(Calendar.getInstance().getTime()) && within90(j))pendingJobs.add(j);
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.HOUR, -1);//adjustment for jobs created instantly
+		ArrayList<Job> pendingJobs = new ArrayList<Job>();		
+		for(Job j : myJobs){
+			if(j.getEndDate().after(today) && within90(j))pendingJobs.add(j);
 		}		
-		return myJobs;
+		return pendingJobs;
 	}
 
 
@@ -102,14 +106,26 @@ public class JobDB implements Serializable {
 	public boolean canVolunteer(Job theJob, VolUser theVolunteer){
 		boolean result = true;
 		for(Job j : myJobs){
-			if(!j.equals(theJob) && j.getVolunteers().contains(theVolunteer) && (theJob.getStartDate().equals(j.getStartDate()) 
-					|| theJob.getStartDate().equals(j.getEndDate())
-					|| theJob.getEndDate().equals(j.getStartDate())
-					|| theJob.getEndDate().equals(j.getEndDate()))
-					|| theJob.getVolunteers().contains(theVolunteer))result = false;
+			if (!j.equals(theJob)){
+				result = !(j.getVolunteers().contains(theVolunteer) && jobsOnSameDay(j, theJob));			
+			} else if(theJob.getVolunteers().contains(theVolunteer)) result = false;
 		}//Jobs may only last two days 4 possible violations of same day rule, no time so dates = on given days.		
 		return result;
 	}
+
+	protected boolean jobsOnSameDay(Job j, Job theJob) {
+		boolean result = false;
+		if(theJob.getStartDate().get(Calendar.DATE) == j.getStartDate().get(Calendar.DATE)
+				|| theJob.getStartDate().get(Calendar.DATE) == j.getEndDate().get(Calendar.DATE)
+				|| theJob.getEndDate().get(Calendar.DATE) == j.getStartDate().get(Calendar.DATE)
+				|| theJob.getEndDate().get(Calendar.DATE) == j.getEndDate().get(Calendar.DATE)) result = true;
+		return result;
+
+	}
+
+
+
+
 
 	/**Add job to the DB USER STORY 1
 	 * @param theJob
@@ -142,7 +158,9 @@ public class JobDB implements Serializable {
 
 
 	protected void checkInFuture(Job theJob) throws JobPastException {
-		if(theJob.getStartDate().before(Calendar.getInstance())) throw new JobPastException();
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.MINUTE, -1);//adjustment for jobs created instantly
+		if(theJob.getStartDate().before(today)) throw new JobPastException();
 
 	}
 
