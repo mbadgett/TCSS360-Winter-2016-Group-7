@@ -104,14 +104,26 @@ public class JobDB implements Serializable {
 	public boolean canVolunteer(Job theJob, VolUser theVolunteer){
 		boolean result = true;
 		for(Job j : myJobs){
-			if(!j.equals(theJob) && j.getVolunteers().contains(theVolunteer) && (theJob.getStartDate().equals(j.getStartDate()) 
-					|| theJob.getStartDate().equals(j.getEndDate())
-					|| theJob.getEndDate().equals(j.getStartDate())
-					|| theJob.getEndDate().equals(j.getEndDate()))
-					|| theJob.getVolunteers().contains(theVolunteer))result = false;
+			if (!j.equals(theJob)){
+				result = !(j.getVolunteers().contains(theVolunteer) && jobsOnSameDay(j, theJob));			
+			} else if(theJob.getVolunteers().contains(theVolunteer)) result = false;
 		}//Jobs may only last two days 4 possible violations of same day rule, no time so dates = on given days.		
 		return result;
 	}
+
+	protected boolean jobsOnSameDay(Job j, Job theJob) {
+		boolean result = false;
+		if(theJob.getStartDate().get(Calendar.DATE) == j.getStartDate().get(Calendar.DATE)
+				|| theJob.getStartDate().get(Calendar.DATE) == j.getEndDate().get(Calendar.DATE)
+				|| theJob.getEndDate().get(Calendar.DATE) == j.getStartDate().get(Calendar.DATE)
+				|| theJob.getEndDate().get(Calendar.DATE) == j.getEndDate().get(Calendar.DATE)) result = true;
+		return result;
+
+	}
+
+
+
+
 
 	/**Add job to the DB USER STORY 1
 	 * @param theJob
