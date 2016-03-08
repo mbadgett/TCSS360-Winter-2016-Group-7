@@ -2,9 +2,8 @@ package data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 
-import users.AbstractUser;
+import users.User;
 import users.VolUser;
 
 /**Houses all the users and the needed functionality.
@@ -17,21 +16,21 @@ public class UserDB implements Serializable{
 	/**For serialization.*/
 	private static final long serialVersionUID = 3463062287214682923L;
 	/**The actual collection of the users. MAKE SURE THE COLLECTION SUPPORTS SERIAALIZATION*/	
-	private ArrayList<AbstractUser> myUsers;
+	private ArrayList<User> myUsers;
 	
 	/***/
 	public UserDB(){
-		myUsers = new ArrayList<AbstractUser>();
+		myUsers = new ArrayList<User>();
 	}
 	
-	public AbstractUser getUser(String theEmail){
-		AbstractUser result = null;
-		for(AbstractUser u: myUsers) if(u.getEmail().toLowerCase().equals(theEmail.toLowerCase()))result = u;
+	public User getUser(String theEmail){
+		User result = null;
+		for(User u: myUsers) if(u.getEmail().toLowerCase().equals(theEmail.toLowerCase()))result = u;
 		return result;
 	}
 	
 	
-	public void addUser(AbstractUser theUser){
+	public void addUser(User theUser){
 		myUsers.add(theUser);
 	}
 	
@@ -41,7 +40,7 @@ public class UserDB implements Serializable{
 	 */
 	public ArrayList<VolUser> getVolunteers(){
 		ArrayList<VolUser> rtn = new ArrayList<VolUser>();
-		for (AbstractUser u: myUsers) {
+		for (User u: myUsers) {
 			if (u.getClass() == VolUser.class) rtn.add((VolUser) u);
 		}
 		return rtn;

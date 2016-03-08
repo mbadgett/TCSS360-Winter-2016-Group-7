@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import users.AbstractUser;
+import users.User;
 import users.PMUser;
 
 

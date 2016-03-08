@@ -10,12 +10,12 @@ import java.io.Serializable;
  * @author Son Vu
  * @author Michael Badgett
  */
-public abstract class AbstractUser implements Serializable{
+public class User implements Serializable{
 	private static final long serialVersionUID = 2369082327791998209L;
 	private String email, lName, fName;
 	
 	
-	public AbstractUser(String theLName, String theFName, String theEmail){
+	public User(String theLName, String theFName, String theEmail){
 		this.lName = theLName;
 		this.fName = theFName;
 		setEmail(theEmail);
@@ -58,7 +58,13 @@ public abstract class AbstractUser implements Serializable{
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object theObject){
-		return false;
+		boolean rtn = false;
+		if (super.equals(theObject)) {
+			rtn = true;
+		} else if (theObject instanceof User) {			
+			if (((User)theObject).getEmail().equals(this.getEmail())) rtn = true;
+		}
+		return rtn;
 	}
 	
 	/* (non-Javadoc) written since we're rewriting equals

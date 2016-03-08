@@ -8,7 +8,7 @@ package users;
  * @author Michael Badgett
  *
  */
-public class UPSUser extends AbstractUser {
+public class UPSUser extends User {
 
 
 	private static final long serialVersionUID = -5586321701248125003L;

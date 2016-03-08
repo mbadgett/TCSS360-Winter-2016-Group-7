@@ -17,7 +17,7 @@ import exceptions.JobLengthException;
 import exceptions.JobMaxException;
 import exceptions.JobPastException;
 import exceptions.JobsInWeekException;
-import users.AbstractUser;
+import users.User;
 import users.PMUser;
 import users.UPSUser;
 import users.VolUser;
@@ -32,7 +32,7 @@ public class UrbanParksDriver {
 	JobDB jobs;
 	ParkDB parks;
 	UserDB users;
-	AbstractUser myCurrentUser;
+	User myCurrentUser;
 	
 	UrbanParksDriver() {		
 		jobs = new JobDB();
@@ -173,7 +173,7 @@ public class UrbanParksDriver {
 	}
 	
 	//Pass the abstract user and the menu name to this method to print the header
-	public void displayHeader(AbstractUser theUser, String theMenu){
+	public void displayHeader(User theUser, String theMenu){
 		System.out.println("\n\n++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("            Urban Parks                   ");
 		System.out.println("            "+theUser.getName()+"          ");
@@ -218,7 +218,7 @@ public class UrbanParksDriver {
 			System.out.println(new JobsInWeekException().getMessage());
 	}
 	
-	public AbstractUser getAbstractUser(){
+	public User getAbstractUser(){
 		return myCurrentUser;
 	}
 	
